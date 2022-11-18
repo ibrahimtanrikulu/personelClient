@@ -1,0 +1,7 @@
+<p-card header="{{baslik}}">
+  <div class="field-radiobutton" *ngFor="let item of data">
+    <p-radioButton name="item.name" [value]="item.name" [(ngModel)]="SecilenEleman" (onClick)="gonder()">
+    </p-radioButton>
+    <label for="{{item.name}}">{{item.name}}</label>
+  </div>
+</p-card>

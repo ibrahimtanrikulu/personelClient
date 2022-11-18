@@ -1,0 +1,182 @@
+<p-menubar [model]="navbarItems" styleClass="bg-white">
+  <button
+    *ngIf="kullanici.yetki"
+    pButton
+    type="button"
+    label="Admin"
+    class="mx-2"
+    routerLink="/layout/"
+  ></button>
+  <button
+    pButton
+    type="button"
+    label="Cıkış Yap"
+    (click)="kaldir()"
+    [routerLink]="'/login'"
+  ></button>
+</p-menubar>
+
+<div class="container my-4">
+  <div class="grid">
+    <div class="col-12">
+      <h1>Kitaplar</h1>
+    </div>
+    <div class="col-12 md:col-4" *ngFor="let item of kitaplarListesi">
+      <p-card
+        header="Kitap Adı: {{ item.ad }}"
+        subheader="Yazar: {{ item.yazar }}"
+        styleClass="p-card-shadow"
+      >
+        <h6>Acıklama</h6>
+        <p>
+          {{ item.aciklama }}
+        </p>
+        <ng-template pTemplate="footer">
+          <p-button
+            label="Kirala"
+            icon="pi pi-check"
+            (onClick)="KiralaMethod(item)"
+          ></p-button>
+        </ng-template>
+      </p-card>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>
+
+<p-dialog [(visible)]="display" [style]="{ width: '70%' }">
+  <ng-template pTemplate="header"><h5>Kitap Kiralama Sayfası</h5></ng-template>
+
+  <div class="mt-3">
+    <div class="grid">
+      <div class="col-12 md:col-6">
+        <div class="col-12 p-fluid">
+          <h4>Kullanıcı bilgileri</h4>
+          <hr />
+        </div>
+        <div class="col-12 p-fluid">
+          <span class="p-float-label">
+            <input
+              [disabled]="true"
+              [value]="kullanici.kullanici"
+              type="text"
+              pInputText
+              class="input"
+            />
+            <label class="label">Kullanici</label>
+          </span>
+        </div>
+        <div class="col-12 p-fluid">
+          <span class="p-float-label">
+            <input
+              [disabled]="true"
+              [value]="kullanici.isim"
+              type="text"
+              pInputText
+              class="input"
+            />
+            <label class="label">Kullanici adı</label>
+          </span>
+        </div>
+        <div class="col-12 p-fluid">
+          <span class="p-float-label">
+            <input
+              [disabled]="true"
+              [value]="kullanici.soyad"
+              type="text"
+              pInputText
+              class="input"
+            />
+            <label class="label">Kullanici soyad</label>
+          </span>
+        </div>
+        <div class="col-12 p-fluid">
+          <span class="p-float-label">
+            <input
+              [disabled]="true"
+              [value]="kullanici.tc"
+              type="text"
+              pInputText
+              class="input"
+            />
+            <label class="label">Kullanici tc</label>
+          </span>
+        </div>
+      </div>
+      <div class="col-12 md:col-6">
+        <div class="col-12 p-fluid">
+          <h4>Kitap bilgileri</h4>
+          <hr />
+        </div>
+        <div class="col-12 p-fluid">
+          <span class="p-float-label">
+            <input
+              [disabled]="true"
+              [value]="kitaplar.ad"
+              type="text"
+              pInputText
+              class="input"
+            />
+            <label class="label">Kitap adı</label>
+          </span>
+        </div>
+        <div class="col-12 p-fluid">
+          <span class="p-float-label">
+            <input
+              [disabled]="true"
+              [value]="kitaplar.yazar"
+              type="text"
+              pInputText
+              class="input"
+            />
+            <label class="label">Kitap yazarı</label>
+          </span>
+        </div>
+        <div class="col-12 p-fluid">
+          <span class="p-float-label">
+            <input
+              [disabled]="true"
+              [value]="kitaplar.kategori"
+              type="text"
+              pInputText
+              class="input"
+            />
+            <label class="label">Kitap kategorisi</label>
+          </span>
+        </div>
+        <div class="col-12 p-fluid">
+          <span class="p-float-label">
+            <input
+              [disabled]="true"
+              [value]="kitaplar.sayfa"
+              type="text"
+              pInputText
+              class="input"
+            />
+            <label class="label">Kitap sayfası</label>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      (click)="display = false"
+      label="İptal"
+      class="p-button-raised p-button-danger"
+    ></button>
+    <p-button
+      label="Kirala"
+      class="p-button-raised"
+      (onClick)="Kirala()"
+    ></p-button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog header="Uyarı" [(visible)]="UyariDisplay" [style]="{ width: '15%' }">
+  Daha önce kiraladıgınız bir kitap var lütfen onu iade edin
+</p-dialog>

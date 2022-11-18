@@ -1,0 +1,40 @@
+<p-card header="{{ header }}">
+  <p-table [columns]="cols" [value]="data" responsiveLayout="scroll">
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of columns">
+          {{ col.header }}
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr>
+        <td *ngFor="let col of columns">
+          <div *ngIf="col.field != ''">
+            {{ rowData[col.field] }}
+          </div>
+          <div *ngIf="col.field == 'button'">
+            <div>
+              <button
+                pButton
+                pRipple
+                type="submit"
+                icon="pi pi-user-edit"
+                (click)="Duzenle(rowData)"
+                class="p-button-rounded p-button-success mx-1"
+              ></button>
+              <button
+                pButton
+                pRipple
+                type="submit"
+                icon="pi pi-times"
+                (click)="Sil(rowData)"
+                class="p-button-rounded p-button-danger mx-1"
+              ></button>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>

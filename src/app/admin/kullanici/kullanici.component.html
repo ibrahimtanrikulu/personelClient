@@ -1,0 +1,15 @@
+<app-generic
+  header="Kullanıcılar"
+  [cols]="cols"
+  [TabloData]="kullaniciListesi"
+  [formTipleri]="input"
+  [form]="KullaniciForm"
+  [globalFilterList]="filterListesi"
+  DialogMessage="Kitabı Silmek istedigine eminmisin"
+  DialogHeader="Silinsin mi?"
+  FormHeader="Kitap Ekleme"
+  [EkleButtonDurum]="true"
+  (kayit)="Save($event)"
+  (CikisFormGroup)="(KullaniciForm)"
+  (sil)="DeleteKitaplar($event)"
+></app-generic>

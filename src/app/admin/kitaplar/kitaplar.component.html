@@ -1,0 +1,43 @@
+<!-- <app-reusable-table
+  header="Personel Listesi"
+  [cols]="cols"
+  [data]="kitaplarListesi"
+  (DuzenleEmit)="showDialog($event)"
+  (SilEmit)="confirm($event)"
+></app-reusable-table>
+
+<p-confirmDialog
+  [style]="{ width: '50vw' }"
+  [baseZIndex]="10000"
+></p-confirmDialog>
+
+<p-dialog
+  header="Kitap Düzenle"
+  [(visible)]="display"
+  [style]="{ width: '50vw' }"
+>
+  <app-form-reusable
+    [formTipleri]="input"
+    [form]="KitapForm"
+    (CikisForm)="(KitapForm)"
+    [RadioButtonData]="kategoriListe"
+    (kayitEdilsinmi)="DuzenlemeYap($event)"
+  ></app-form-reusable>
+</p-dialog> -->
+
+<app-generic
+  header="Kitaplar"
+  [cols]="cols"
+  [TabloData]="kitaplarListesi"
+  [formTipleri]="input"
+  [form]="KitapForm"
+  [RadioButtonData]="kategoriListe"
+  [globalFilterList]="filterListesi"
+  DialogMessage="Kitabı Silmek istedigine eminmisin"
+  DialogHeader="Silinsin mi?"
+  FormHeader="Kitap Ekleme"
+  [EkleButtonDurum]="true"
+  (kayit)="Save($event)"
+  (CikisFormGroup)="(KitapForm)"
+  (sil)="DeleteKitaplar($event)"
+></app-generic>
