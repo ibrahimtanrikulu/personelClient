@@ -19,53 +19,63 @@ export class AppMenuComponent implements OnInit {
           {
             label: 'anasayfa',
             icon: 'pi pi-fw pi-home',
-            routerLink: ['/anasayfa'],
+            routerLink: ['/layout'],
           },
         ],
       },
 
       {
-        label: 'kitaplar',
+        label: 'personeller',
         items: [
           {
-            label: 'Kitaplar',
+            label: 'personeller',
             icon: 'pi pi-fw pi-check-square',
-            routerLink: ['/layout/kitapListe'],
+            routerLink: ['/layout/personeller'],
+          },
+          {
+            label: 'personel Maaşlari',
+            icon: 'pi pi-fw pi-check-square',
+            routerLink: ['/layout/personelMaaslari'],
+          },
+          {
+            label: 'personel izinleri',
+            icon: 'pi pi-fw pi-check-square',
+            routerLink: ['/layout/personelizinleri'],
+          },
+          {
+            label: 'isten çıkmış personeller',
+            icon: 'pi pi-fw pi-check-square',
+            routerLink: ['/layout/personelIstifa'],
           },
         ],
       },
 
       {
-        label: 'Kitap Kategorileri',
+        label: 'Departmanlar',
         items: [
           {
-            label: 'Kategoriler',
+            label: 'Departmanlar',
             icon: 'pi pi-fw pi-eye',
-            routerLink: ['/layout/kategoriListe'],
+            routerLink: ['/layout/departmanlar'],
+            badge: 'NEW',
+          },
+          {
+            label: 'Departman Pozisyon',
+            icon: 'pi pi-fw pi-eye',
+            routerLink: ['/layout/departmanRol'],
             badge: 'NEW',
           },
         ],
       },
 
       {
-        label: 'kiralamalar',
+        label: 'Şubeler',
         items: [
           {
-            label: 'Kiralanan Kitaplar',
+            label: 'Şube',
             icon: 'pi pi-fw pi-eye',
-            routerLink: ['/layout/kitapKirala'],
+            routerLink: ['/layout/subeler'],
             badge: 'NEW',
-          },
-        ],
-      },
-
-      {
-        label: 'Kullanicilar',
-        items: [
-          {
-            label: 'Kullanıcı Tablosu',
-            icon: 'pi pi-fw pi-eye',
-            routerLink: ['/layout/kullanicilar'],
           },
         ],
       },

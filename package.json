@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "json": "json-server data.js -m auth-middleware.js"
+    "json": "json-server data.js"
   },
   "private": true,
   "dependencies": {
@@ -16,14 +16,18 @@
     "@angular/compiler": "^14.2.0",
     "@angular/core": "^14.2.0",
     "@angular/forms": "^14.2.0",
+    "@angular/material": "^14.0.0",
     "@angular/platform-browser": "^14.2.0",
     "@angular/platform-browser-dynamic": "^14.2.0",
     "@angular/router": "^14.2.0",
+    "@auth0/angular-jwt": "^5.1.1",
     "@ngrx/store": "^14.3.2",
     "bootstrap": "^5.2.2",
+    "idb": "^7.1.1",
     "jquery": "^3.6.1",
     "json-server": "^0.17.0",
     "jsonwebtoken": "^8.5.1",
+    "ngx-file-drop": "^14.0.2",
     "ngx-spinner": "^14.0.0",
     "primeflex": "^3.2.1",
     "primeicons": "^6.0.1",

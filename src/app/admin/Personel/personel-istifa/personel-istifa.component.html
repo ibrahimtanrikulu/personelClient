@@ -1,0 +1,32 @@
+<p-card header="Personeller">
+  <p-toolbar styleClass="mb-3"> </p-toolbar>
+
+  <p-table [value]="TabloData">
+    <ng-template pTemplate="caption">
+      <div class="p-d-flex p-ai-center p-jc-between">
+        <h4 class="p-m-0">Personel Listesi</h4>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Tc</th>
+        <th>İsim</th>
+        <th>Soyad</th>
+        <th>Giriş tarihi</th>
+        <th>Çıkış tarihi</th>
+        <th>Çıkış nedeni</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-personel>
+      <tr>
+        <td>{{ personel.personelKimlik.tc }}</td>
+        <td>{{ personel.personelKimlik.isim }}</td>
+        <td>{{ personel.personelKimlik.soyad }}</td>
+        <td>{{ personel.personelSigorta.girisTarihi }}</td>
+        <td>{{ personel.personelSigorta.cikisTarihi }}</td>
+        <td>{{ personel.personelSigorta.cikisNedeni }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
+

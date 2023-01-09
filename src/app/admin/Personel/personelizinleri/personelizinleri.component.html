@@ -1,0 +1,172 @@
+
+<p-card header="Personel izinleri">
+  <p-toolbar styleClass="mb-4">
+    <ng-template pTemplate="left">
+      <button
+        pButton
+        pRipple
+        label="Toplu izin ekle"
+        icon="pi pi-plus"
+        class="p-button-success p-mr-2"
+        (click)="topluIzinEkleMethod()"
+      ></button>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table [value]="TabloData" dataKey="id">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem"></th>
+        <th pSortableColumn="tc">Tc <p-sortIcon field="tc"></p-sortIcon></th>
+        <th pSortableColumn="isim">
+          İsim <p-sortIcon field="isim"></p-sortIcon>
+        </th>
+        <th pSortableColumn="soyad">
+          Soyad <p-sortIcon field="soyad"></p-sortIcon>
+        </th>
+        <th style="width: 3rem"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-personel let-expanded="expanded">
+      <tr>
+        <td>
+          <button
+            type="button"
+            pButton
+            pRipple
+            
+            [pRowToggler]="personel"
+            class=" p-button-rounded p-button-plain p-button-success"
+            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+          ></button>
+        </td>
+        <td>{{ personel.personelKimlik.tc }}</td>
+        <td>{{ personel.personelKimlik.isim }}</td>
+        <td>{{ personel.personelKimlik.soyad }}</td>
+        <td>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-plus"
+            class="p-button-success"
+            (click)="topluIzinEkleMethod(personel.id)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="rowexpansion" let-personel>
+      <tr>
+        <td colspan="6">
+          <div class="px-8">
+            <p-table [value]="personel.personelIzin" dataKey="id">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Başlama Günü</th>
+                  <th>Bitiş Günü</th>
+                  <th>izin Türü</th>
+                  <th>izin Sebebi</th>
+                  <th style="width: 4rem"></th>
+                  <th style="width: 4rem"></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-personelIzin>
+                <tr>
+                  <td>{{ personelIzin.baslangicGun }}</td>
+                  <td>{{ personelIzin.bitisGun }}</td>
+                  <td>{{ personelIzin.turu }}</td>
+                  <td>{{ personelIzin.neden }}</td>
+
+                  <td>
+                    <p-button
+                      type="button"
+                      icon="pi pi-pencil"
+                      (onClick)="tekIzinDuzenleMethod(personelIzin)"
+                    ></p-button>
+                  </td>
+                  <td>
+                    <p-button
+                      type="button"
+                      icon="pi pi-trash"
+                      (onClick)="DeleteIzin(personelIzin)"
+                    ></p-button>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="6">Bu personelin izin kayıtı yok</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
+
+<p-dialog
+  header="Toplu izin ekle"
+  [(visible)]="topluIzinEkle"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <form [formGroup]="izinForm">
+    <div class="grid">
+      <div class="col-12 p-fluid">
+        <span>
+          <label for="baslangicGun">İzin başlama günü</label>
+          <p-calendar
+            inputId="baslangicGun"
+            appendTo="body"
+            formControlName="baslangicGun"
+          ></p-calendar>
+        </span>
+      </div>
+      <div class="col-12 p-fluid">
+        <span>
+          <label for="bitisGun">izin bitiş günü</label>
+          <p-calendar
+            inputId="bitisGun"
+            appendTo="body"
+            formControlName="bitisGun"
+          ></p-calendar>
+        </span>
+      </div>
+      <div class="col-12 p-fluid">
+        <span class="p-float-label">
+          <input
+            id="neden"
+            type="text"
+            pInputText
+            class="input"
+            formControlName="neden"
+          />
+          <label class="label" for="neden">İzin nedeni</label>
+        </span>
+      </div>
+      <div class="col-12 p-fluid">
+        <span class="p-float-label">
+          <input
+            id="turu"
+            type="text"
+            pInputText
+            class="input"
+            formControlName="turu"
+          />
+          <label class="label" for="turu">İzin Turu</label>
+        </span>
+      </div>
+      <div class="col-12 p-fluid">
+        <button
+          pButton
+          pRipple
+          label="kaydet"
+          icon="pi pi-check"
+          (click)="save()"
+        ></button>
+      </div>
+    </div>
+  </form>
+</p-dialog>
+<p-confirmDialog></p-confirmDialog>

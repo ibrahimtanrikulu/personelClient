@@ -1,0 +1,814 @@
+<p-card header="Personeller">
+  <p-toolbar styleClass="mb-4">
+    <ng-template pTemplate="left">
+      <button
+        pButton
+        pRipple
+        label="Yeni Personel"
+        icon="pi pi-plus"
+        class="p-button-success p-mr-2"
+        (click)="addPersonelButton()"
+      ></button>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table
+    #dt1
+    [value]="TabloData"
+    selectionMode="single"
+    [(selection)]="selectedPersonel"
+    dataKey="id"
+  >
+    <ng-template pTemplate="caption">
+      <div class="p-d-flex p-ai-center p-jc-between">
+        <h4 class="p-m-0">Personel Listesi</h4>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Tc</th>
+        <th>İsim</th>
+        <th>Soyad</th>
+        <th>Yaşadıgı Şehir</th>
+        <th>Cep Telefonu</th>
+        <th>Email</th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-personel>
+      <tr>
+        <td>{{ personel.personelKimlik.tc }}</td>
+        <td>{{ personel.personelKimlik.isim }}</td>
+        <td>{{ personel.personelKimlik.soyad }}</td>
+        <td>{{ personel.personelAdres.il }}</td>
+        <td>{{ personel.personeliletisim.telefon }}</td>
+        <td>{{ personel.personeliletisim.email }}</td>
+        <td>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-success"
+            (click)="editButton(personel)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
+
+<p-dialog
+  [(visible)]="PersonelDialog"
+  header="Personel Detayı"
+  [style]="{ width: '80vw' }"
+>
+  <ng-template pTemplate="content">
+    <form [formGroup]="PersonelForm">
+      <p-tabView>
+        <p-tabPanel header="Kimlik&Şirket bilgileri">
+          <h4>Kimlik Bilgileri</h4>
+          <hr />
+          <div class="grid">
+            <div class="col-12 md:col-4" style="border: 1px solid blue">
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                "
+              >
+                <div class="center">
+                  <!-- <ngx-file-drop
+                    dropZoneLabel="Drop files here"
+                    (onFileDrop)="personelResmi($event)"
+                  >
+                    <ng-template
+                      ngx-file-drop-content-tmp
+                      let-openFileSelector="openFileSelector"
+                    >
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        (click)="openFileSelector()"
+                      >
+                        Dosyayı yükleyin
+                      </button>
+                    </ng-template>
+                  </ngx-file-drop> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-12 md:col-8">
+              <div class="grid">
+                <!-- 1 -->
+                <div class="col-12 md:col-6 p-fluid">
+                  <span class="p-float-label">
+                    <input
+                      id="tc"
+                      type="text"
+                      pInputText
+                      class="input"
+                      formControlName="KimlikTc"
+                    />
+                    <label class="label" for="tc">Personel Tc</label>
+                  </span>
+                </div>
+                <div class="col-12 md:col-6 p-fluid">
+                  <span class="p-float-label">
+                    <input
+                      id="isim"
+                      type="text"
+                      pInputText
+                      class="input"
+                      formControlName="KimlikIsim"
+                    />
+                    <label class="label" for="isim">Personel isim</label>
+                  </span>
+                </div>
+
+                <!-- 2 -->
+                <div class="col-12 md:col-6 p-fluid">
+                  <span class="p-float-label">
+                    <input
+                      id="soyad"
+                      type="text"
+                      pInputText
+                      class="input"
+                      formControlName="KimlikSoyad"
+                    />
+                    <label class="label" for="soyad">Personel soyad</label>
+                  </span>
+                </div>
+
+                <div class="col-12 md:col-6 p-fluid">
+                  <span class="p-float-label">
+                    <input
+                      id="seriNo"
+                      type="text"
+                      pInputText
+                      class="input"
+                      formControlName="KimlikSeriNo"
+                    />
+                    <label class="label" for="seriNo">Personel seri no</label>
+                  </span>
+                </div>
+
+                <!-- 3 -->
+                <div class="col-12 md:col-6 p-fluid">
+                  <span>
+                    <label for="KimlikUyruk">Personel Uyruk</label>
+                    <p-dropdown
+                      [options]="ulke"
+                      optionLabel="text"
+                      [showClear]="false"
+                      formControlName="KimlikUyruk"
+                    ></p-dropdown>
+                  </span>
+                </div>
+
+                <div class="col-12 md:col-6 p-fluid">
+                  <span>
+                    <label for="KimlikDogumTarihi">Personel doğum tarihi</label>
+                    <p-calendar
+                      id="dogumTarihi"
+                      inputId="basic"
+                      appendTo="body"
+                      formControlName="KimlikDogumTarihi"
+                    ></p-calendar>
+                  </span>
+                </div>
+
+                <div class="col-12 md:col-4 p-fluid">
+                  <span>
+                    <p-dropdown
+                      [options]="il"
+                      appendTo="body"
+                      optionLabel="text"
+                      [showClear]="false"
+                      formControlName="KimlikDogumYeri"
+                    ></p-dropdown>
+                  </span>
+                </div>
+
+                <div class="col-12 md:col-4 p-fluid">
+                  <p-dropdown
+                    [options]="cinsiyet"
+                    optionLabel="text"
+                    appendTo="body"
+                    [showClear]="false"
+                    formControlName="KimlikCinsiyet"
+                  ></p-dropdown>
+                </div>
+                <div class="col-12 md:col-4 p-fluid">
+                  <p-dropdown
+                    [options]="kanGrubu"
+                    optionLabel="text"
+                    appendTo="body"
+                    [showClear]="false"
+                    formControlName="KimlikKanGrubu"
+                  ></p-dropdown>
+                </div>
+
+                <div class="col-12 md:col-6 p-fluid">
+                  <label for="minmax-buttons">Medeni Hal</label>
+                  <p-dropdown
+                    [options]="medeniHal"
+                    optionLabel="text"
+                    appendTo="body"
+                    [showClear]="false"
+                    formControlName="KimlikMedeniHal"
+                  ></p-dropdown>
+                </div>
+                <div class="col-12 md:col-6 p-fluid">
+                  <label for="minmax-buttons">Çocuk sayısı</label>
+                  <p-inputNumber
+                    mode="decimal"
+                    [showButtons]="true"
+                    inputId="minmax-buttons"
+                    [min]="0"
+                    [max]="20"
+                    formControlName="KimlikCocukSayisi"
+                  >
+                  </p-inputNumber>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h4>Şirket Bilgileri</h4>
+          <hr />
+          <div class="grid">
+            <div class="col-12 md:col-4 p-fluid">
+              <p-dropdown
+                [options]="subeListe"
+                optionLabel="ad"
+                appendTo="body"
+                [showClear]="false"
+                placeholder="Sube"
+                (onChange)="filterDepartmanChange($event)"
+                formControlName="sirketSube"
+              ></p-dropdown>
+            </div>
+            <div class="col-12 md:col-4 p-fluid">
+              <p-dropdown
+                [options]="filterDepartmanListe"
+                optionLabel="isim"
+                appendTo="body"
+                (onChange)="filterDepartmanRolChange($event)"
+                [showClear]="false"
+                formControlName="sirketDepartman"
+              ></p-dropdown>
+            </div>
+            <div class="col-12 md:col-4 p-fluid">
+              <p-dropdown
+                [options]="filterDepartmanRolListe"
+                optionLabel="isim"
+                appendTo="body"
+                [showClear]="false"
+                formControlName="sirketDepartmanRol"
+              ></p-dropdown>
+            </div>
+            <div class="col-12 p-fluid">
+              <label class="label">İş tanımı</label>
+              <textarea
+                rows="4"
+                pInputTextarea
+                [autoResize]="false"
+                formControlName="sirketIsTanimi"
+              ></textarea>
+            </div>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel header="Adres&iletişim bilgileri">
+          <h4>İletişim Bilgileri</h4>
+          <hr />
+          <div class="grid">
+            <div class="col-12 md:col-4 p-fluid">
+              <span class="p-float-label">
+                <input
+                  id="Email"
+                  type="text"
+                  pInputText
+                  class="input"
+                  formControlName="iletisimEmail"
+                />
+                <label class="label" for="Email">Email</label>
+              </span>
+            </div>
+            <div class="col-12 md:col-4 p-fluid">
+              <span class="p-float-label">
+                <input
+                  id="telefon"
+                  type="text"
+                  pInputText
+                  class="input"
+                  formControlName="iletisimTelefon"
+                />
+                <label class="label" for="telefon">Cep Telefon</label>
+              </span>
+            </div>
+            <div class="col-12 md:col-4 p-fluid">
+              <span class="p-float-label">
+                <input
+                  id="ev"
+                  type="text"
+                  pInputText
+                  class="input"
+                  formControlName="iletisimEvTelefonu"
+                />
+                <label class="label" for="ev">Ev telefon</label>
+              </span>
+            </div>
+          </div>
+
+          <h4>Adres Bilgileri</h4>
+          <hr />
+          <div class="grid">
+            <div class="col-12 md:col-4 p-fluid">
+              <span>
+                <p-dropdown
+                  [options]="ulke"
+                  optionLabel="text"
+                  appendTo="body"
+                  [showClear]="false"
+                  formControlName="AdresUlke"
+                ></p-dropdown>
+              </span>
+            </div>
+
+            <div class="col-12 md:col-4 p-fluid">
+              <span>
+                <p-dropdown
+                  [options]="il"
+                  appendTo="body"
+                  optionLabel="text"
+                  [showClear]="false"
+                  formControlName="AdresIl"
+                ></p-dropdown>
+              </span>
+            </div>
+
+            <div class="col-12 md:col-4 p-fluid">
+              <span>
+                <p-dropdown
+                  [options]="ilce"
+                  optionLabel="text"
+                  [showClear]="false"
+                  appendTo="body"
+                  formControlName="AdresIlce"
+                ></p-dropdown>
+              </span>
+            </div>
+
+            <div class="col-12 md:col-4 p-fluid">
+              <span class="p-float-label">
+                <input
+                  id="Email"
+                  type="text"
+                  pInputText
+                  class="input"
+                  formControlName="AdresPostaKodu"
+                />
+                <label class="label" for="Email">Posta kodu</label>
+              </span>
+            </div>
+
+            <div class="col-12 md:col-4 p-fluid">
+              <span class="p-float-label">
+                <input
+                  id="Email"
+                  type="text"
+                  pInputText
+                  class="input"
+                  formControlName="AdresMahalle"
+                />
+                <label class="label" for="Email">Mahalle</label>
+              </span>
+            </div>
+
+            <div class="col-12 md:col-4 p-fluid">
+              <span class="p-float-label">
+                <input
+                  id="Email"
+                  type="text"
+                  pInputText
+                  class="input"
+                  formControlName="AdresSokak"
+                />
+                <label class="label" for="Email">Sokak</label>
+              </span>
+            </div>
+
+            <div class="col-12 p-fluid">
+              <label class="label">Adres</label>
+              <textarea
+                rows="4"
+                pInputTextarea
+                [autoResize]="false"
+                formControlName="AdresAcikAdres"
+              ></textarea>
+            </div>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel header="Sigorta&Banka bilgileri">
+          <h4>Sigorta Bilgileri</h4>
+          <hr />
+          <div class="grid">
+            <div class="col-12 md:col-4 p-fluid">
+              <span class="p-float-label">
+                <input
+                  id="sigortaStatu"
+                  type="text"
+                  pInputText
+                  class="input"
+                  formControlName="SigortaSigortaStatu"
+                />
+                <label class="label" for="sigortaStatu">Sigorta statü</label>
+              </span>
+            </div>
+            <div class="col-12 md:col-4 p-fluid">
+              <span class="p-float-label">
+                <input
+                  id="sigortaNo"
+                  type="text"
+                  pInputText
+                  class="input"
+                  formControlName="SigortaSicilNo"
+                />
+                <label class="label" for="sigortaNo">Sigorta Sicil No</label>
+              </span>
+            </div>
+
+            <div class="col-12 md:col-4 p-fluid">
+              <span class="p-float-label">
+                <input
+                  id="meslekKodu"
+                  type="text"
+                  pInputText
+                  class="input"
+                  formControlName="SigortaMeslekKodu"
+                />
+                <label class="label" for="meslekKodu">Meslek Kodu</label>
+              </span>
+            </div>
+            <div class="col-12 md:col-6 p-fluid">
+              <span>
+                <label class="label">Çalışma Tipi</label>
+                <p-dropdown
+                  [options]="calismaTipi"
+                  optionLabel="text"
+                  appendTo="body"
+                  [showClear]="false"
+                  formControlName="SigortaCalismaTipi"
+                ></p-dropdown>
+              </span>
+            </div>
+
+            <div class="col-12 md:col-6 p-fluid">
+              <span>
+                <label class="label">Çalışan Tipi</label>
+                <p-dropdown
+                  [options]="calisanTipi"
+                  optionLabel="text"
+                  appendTo="body"
+                  [showClear]="false"
+                  formControlName="SigortaCalisanTipi"
+                ></p-dropdown>
+              </span>
+            </div>
+
+            <div class="col-12 md:col-6 p-fluid">
+              <span>
+                <label for="dogumTarihi">Giriş tarihi</label>
+                <p-calendar
+                  inputId="basic"
+                  appendTo="body"
+                  formControlName="SigortaGirisTarihi"
+                ></p-calendar>
+              </span>
+            </div>
+
+            <div class="col-6 md:col-6 p-fluid mt-5">
+              <div class="field-checkbox">
+                <p-checkbox
+                  [binary]="true"
+                  formControlName="ciktimi"
+                  inputId="durum"
+                ></p-checkbox>
+                <label for="durum">Personel Cıktımı?</label>
+              </div>
+            </div>
+            <ng-container *ngIf="PersonelForm.value.ciktimi">
+              <div class="col-6 md:col-6 p-fluid">
+                <span>
+                  <label for="bitisZamani">Çıkış tarihi</label>
+                  <p-calendar
+                    inputId="basic"
+                    [touchUI]="false"
+                    appendTo="body"
+                    [readonlyInput]="true"
+                    formControlName="SigortaCikisTarihi"
+                  ></p-calendar>
+                </span>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="PersonelForm.value.ciktimi">
+              <div class="col-12 p-fluid">
+                <label class="label">Cıkış nedeni</label>
+                <textarea
+                  rows="4"
+                  pInputTextarea
+                  [autoResize]="false"
+                  formControlName="SigortaCikisNedeni"
+                ></textarea>
+              </div>
+            </ng-container>
+          </div>
+          <h4>Banka Bilgileri</h4>
+          <hr />
+          <div class="grid">
+            <div class="col-4 md:col-4 p-fluid">
+              <span>
+                <label class="label">Banka Adı</label>
+                <p-dropdown
+                  [options]="bankaAdi"
+                  optionLabel="text"
+                  appendTo="body"
+                  [showClear]="false"
+                  formControlName="bankaAdi"
+                ></p-dropdown>
+              </span>
+            </div>
+            <div class="col-8 md:col-8 p-fluid">
+              <label for="integeronly">İban</label>
+              <input
+                id="meslekKodu"
+                type="text"
+                pInputText
+                class="input"
+                formControlName="bankaIban"
+              />
+            </div>
+            <div class="col-12 md:col-12 p-fluid">
+              <label for="hesapNo">Hesap no</label>
+              <input
+                id="hesapNo"
+                type="text"
+                pInputText
+                class="input"
+                formControlName="hesapNo"
+              />
+            </div>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel header="Deneyim&Eğitim bilgileri">
+          <h4>Eğitim Bilgileri</h4>
+          <hr />
+          <div class="grid">
+            <div class="col-12 md:col-4 p-fluid">
+              <span>
+                <p-dropdown
+                  [options]="EgitimDurumu"
+                  optionLabel="text"
+                  [showClear]="false"
+                  formControlName="EgitimDurumu"
+                ></p-dropdown>
+              </span>
+            </div>
+            <!-- 1 -->
+            <div class="col-12 md:col-4 p-fluid">
+              <span class="p-float-label">
+                <input
+                  id="Doktora"
+                  type="text"
+                  pInputText
+                  class="input"
+                  formControlName="EgitimDoktora"
+                />
+                <label class="label" for="Doktora">Doktora</label>
+              </span>
+            </div>
+            <div class="col-12 md:col-4 p-fluid">
+              <span class="p-float-label">
+                <input
+                  id="yuksekLisans"
+                  type="text"
+                  pInputText
+                  class="input"
+                  formControlName="EgitimYuksekLisans"
+                />
+                <label class="label" for="yuksekLisans">Yüksek lisans</label>
+              </span>
+            </div>
+
+            <!-- 2 -->
+            <div class="col-12 md:col-4 p-fluid">
+              <span class="p-float-label">
+                <input
+                  id="unuversite"
+                  type="text"
+                  pInputText
+                  class="input"
+                  formControlName="EgitimUnuversite"
+                />
+                <label class="label" for="unuversite">Ünüversite</label>
+              </span>
+            </div>
+
+            <div class="col-12 md:col-4 p-fluid">
+              <span>
+                <p-dropdown
+                  [options]="bolumu"
+                  optionLabel="text"
+                  appendTo="body"
+                  [showClear]="false"
+                  formControlName="EgitimBolum"
+                ></p-dropdown>
+              </span>
+            </div>
+
+            <div class="col-12 md:col-2 p-fluid">
+              <span class="p-float-label">
+                <input
+                  id="notOrtalamasi"
+                  type="text"
+                  pInputText
+                  class="input"
+                  formControlName="EgitimNotOratalamasi"
+                />
+                <label class="label" for="notOrtalamasi">Not ortalaması</label>
+              </span>
+            </div>
+
+            <div class="col-12 md:col-2 p-fluid">
+              <span>
+                <p-dropdown
+                  [options]="lisansDerece"
+                  optionLabel="text"
+                  [showClear]="false"
+                  appendTo="body"
+                  formControlName="EgitimLisansDerecesi"
+                ></p-dropdown>
+              </span>
+            </div>
+
+            <div class="col-12 md:col-4 p-fluid">
+              <span class="p-float-label">
+                <input
+                  id="unuversite"
+                  type="text"
+                  pInputText
+                  class="input"
+                  formControlName="EgitimLise"
+                />
+                <label class="label" for="unuversite">Lise</label>
+              </span>
+            </div>
+            <div class="col-12 md:col-4 p-fluid">
+              <span class="p-float-label">
+                <input
+                  id="unuversite"
+                  type="text"
+                  pInputText
+                  class="input"
+                  formControlName="EgitimOrtaOkul"
+                />
+                <label class="label" for="unuversite">Orta okul</label>
+              </span>
+            </div>
+            <div class="col-12 md:col-4 p-fluid">
+              <span class="p-float-label">
+                <input
+                  id="unuversite"
+                  type="text"
+                  pInputText
+                  class="input"
+                  formControlName="EgitimIlkOkul"
+                />
+                <label class="label" for="unuversite">İlk okul</label>
+              </span>
+            </div>
+          </div>
+
+          <h4>Deneyim Bilgileri</h4>
+          <hr />
+          <p-toolbar styleClass="mb-2 ">
+            <ng-template pTemplate="left">
+              <button
+                pButton
+                pRipple
+                label="Ekle"
+                icon="pi pi-plus"
+                class="p-button-success p-mr-2"
+                (click)="addDeneyimButton()"
+              ></button>
+            </ng-template>
+          </p-toolbar>
+
+          <p-table [columns]="DeneyimCols" [value]="DeneyimListe">
+            <ng-template pTemplate="caption">
+              <div class="p-d-flex p-ai-center p-jc-between">
+                <h4 class="p-m-0">Deneyim Listesi</h4>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th
+                  *ngFor="let col of columns"
+                  pSortableColumn="{{ col.header }}"
+                >
+                  {{ col.header }}
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <tr>
+                <td *ngFor="let col of columns">
+                  <div *ngIf="col.field != ''">
+                    {{ rowData[col.field] }}
+                  </div>
+                  <div *ngIf="col.field == 'button'">
+                    <!-- <button
+                      pButton
+                      pRipple
+                      icon="pi pi-pencil"
+                      class="p-button-rounded p-button-success p-mr-2 mx-2"
+                      (click)="editDeneyimButton(rowData)"
+                    ></button> -->
+                    <button
+                      pButton
+                      pRipple
+                      icon="pi pi-trash"
+                      class="p-button-rounded p-button-warning p-mr-2 mx-2"
+                      (click)="DeleteDeneyim(rowData)"
+                    ></button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-tabPanel>
+      </p-tabView>
+      <div class="kaydetButton">
+        <button
+          pButton
+          pRipple
+          label="kaydet"
+          icon="pi pi-check"
+          (click)="save()"
+        ></button>
+      </div>
+    </form>
+  </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="DeneyimDialog" header="Deneyim Detay">
+  <ng-template pTemplate="content">
+    <form [formGroup]="DeneyimForm">
+      <p-card>
+        <div class="grid">
+          <div class="col-12 p-fluid">
+            <span class="p-float-label">
+              <input
+                id="isim"
+                type="text"
+                pInputText
+                class="input"
+                formControlName="sirketIsmi"
+              />
+              <label class="label" for="isim">Şirket ismi</label>
+            </span>
+          </div>
+          <div class="col-12 p-fluid">
+            <span
+              ><label class="label" for="yil">Yıl</label>
+              <p-inputNumber inputId="yil" formControlName="yil">
+              </p-inputNumber>
+            </span>
+          </div>
+          <div class="col-12 p-fluid">
+            <span class="p-float-label">
+              <input
+                id="pozisyon"
+                type="text"
+                pInputText
+                class="input"
+                formControlName="pozisyon"
+              />
+              <label class="label" for="pozisyon">Pozisyon</label>
+            </span>
+          </div>
+        </div>
+        <div class="mt-3 kaydetButton p-fluid">
+          <button
+            pButton
+            pRipple
+            label="kaydet"
+            icon="pi pi-check"
+            (click)="DeneyimSave()"
+          ></button>
+        </div>
+      </p-card>
+    </form>
+  </ng-template>
+</p-dialog>
+<p-confirmDialog></p-confirmDialog>

@@ -1,5 +1,5 @@
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -31,41 +31,40 @@ import { PasswordModule } from 'primeng/password';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ModelModule } from './model/model.module';
 import { AppLayoutModule } from './admin/layout/app.layout.module';
 import { ToolbarModule } from 'primeng/toolbar';
-import { LoginComponent } from './admin/login/login.component';
-import { RadioComponent } from './Reusable/reusable-radio/radiotablo.component';
-import { ReusableTableComponent } from './Reusable/reusable-table/reusable-table.component';
-import { KitaplarComponent } from './admin/kitaplar/kitaplar.component';
-import { FormReusableComponent } from './Reusable/form-reusable/form-reusable.component';
-import { GenericComponent } from './generic/generic.component';
-import { KategoriComponent } from './admin/kategori/kategori.component';
-import { SatinAlmaComponent } from './admin/SatinAlma/satinAlma.component';
-import { ReusableDialogComponent } from './Reusable/reusable-dialog/reusable-dialog.component';
-import { KullaniciComponent } from './admin/kullanici/kullanici.component';
-import { AnasayfaComponent } from './ekran/anasayfa/anasayfa.component';
-import { NavbarComponent } from './ekran/navbar/navbar.component';
-import { FooterComponent } from './ekran/footer/footer.component';
-import { RegisterComponent } from './admin/register/register.component';
+import { LoginComponent } from './ui/login/login.component';
+import { DepartmanComponent } from './admin/departman/departman.component';
+import { ModelModule } from './Services/model.module';
+import { RegisterComponent } from './ui/register/register.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ToastModule } from 'primeng/toast';
+import { PersonelMaasComponent } from './admin/Personel/personel-maas/personel-maas.component';
+import { JwtModule } from '@auth0/angular-jwt';
+import { PersonellerComponent } from './admin/Personel/personeller/personeller.component';
+import { TabMenuModule } from 'primeng/tabmenu';
+import { MatTabsModule } from '@angular/material/tabs';
+import { DepartmanRolComponent } from './admin/departman-rol/departman-rol.component';
+import { SubeComponent } from './admin/sube/sube.component';
+import { PersonelizinleriComponent } from './admin/Personel/personelizinleri/personelizinleri.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { PersonelIstifaComponent } from './admin/Personel/personel-istifa/personel-istifa.component';
+import { NgxFileDropModule } from 'ngx-file-drop';
+import { TazminatHesaplaComponent } from './admin/Personel/tazminat-hesapla/tazminat-hesapla.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    PersonellerComponent,
     LoginComponent,
-    RadioComponent,
-    ReusableTableComponent,
-    KitaplarComponent,
-    FormReusableComponent,
-    GenericComponent,
-    KategoriComponent,
-    SatinAlmaComponent,
-    ReusableDialogComponent,
-    KullaniciComponent,
-    AnasayfaComponent,
-    NavbarComponent,
-    FooterComponent,
     RegisterComponent,
+    DepartmanComponent,
+    PersonelMaasComponent,
+    DepartmanRolComponent,
+    SubeComponent,
+    PersonelizinleriComponent,
+    PersonelIstifaComponent,
+    TazminatHesaplaComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,7 +76,11 @@ import { RegisterComponent } from './admin/register/register.component';
     ReactiveFormsModule,
     ToolbarModule,
     DialogModule,
+    MatTabsModule,
+    TabMenuModule,
     StepsModule,
+    ToastModule,
+    NgxFileDropModule,
     PasswordModule,
     ConfirmDialogModule,
     ImageModule,
@@ -92,19 +95,32 @@ import { RegisterComponent } from './admin/register/register.component';
     InputMaskModule,
     InputTextareaModule,
     TableModule,
+    MatDatepickerModule,
     CheckboxModule,
     RadioButtonModule,
     DropdownModule,
     SidebarModule,
+    NgxSpinnerModule,
     AccordionModule,
     MenubarModule,
     CalendarModule,
     PanelMenuModule,
+    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
     AppLayoutModule,
     ReactiveFormsModule,
     HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => localStorage.getItem('AccessToken'),
+        allowedDomains: ['localhost:7176'],
+      },
+    }),
   ],
-  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: '_base', useValue: 'https://localhost:7176/api', multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

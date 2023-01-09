@@ -1,0 +1,70 @@
+<div style="width: 99%">
+  <div class="grid">
+    <div class="col-0 md:col-4"></div>
+    <div class="col-12 md:col-4 mt-8">
+      <form [formGroup]="UserForm" (ngSubmit)="save()">
+        <p-card header="Kullanıcı Kayıt Ekranı">
+          <hr />
+          <div>
+            <div class="p-fluid">
+              <span class="p-float-label">
+                <h5>Ad Soyad</h5>
+                <input type="text" pInputText formControlName="adSoyad" />
+              </span>
+            </div>
+          </div>
+          <div class="mt-3">
+            <div class="p-fluid">
+              <h5>Kullanıcı Adı</h5>
+              <input type="text" pInputText formControlName="kullaniciAdi" />
+            </div>
+          </div>
+          <div class="mt-3">
+            <div class="p-fluid">
+              <span class="p-float-label">
+                <h5>Email</h5>
+                <input type="text" pInputText formControlName="email" />
+              </span>
+            </div>
+          </div>
+          <div class="mt-3">
+            <div class="p-fluid">
+              <span class="p-float-label">
+                <h5>Sifre</h5>
+                <input type="password" pInputText formControlName="sifre" />
+              </span>
+            </div>
+          </div>
+          <div class="mt-3">
+            <div class="p-fluid">
+              <span class="p-float-label">
+                <h5>Sifre Tekrar</h5>
+                <input
+                  type="password"
+                  pInputText
+                  formControlName="sifreTekrar"
+                />
+              </span>
+            </div>
+          </div>
+          <div class="mt-3">
+            <div class="p-fluid grid">
+              <div class="col-6">
+                <button pButton label="Giriş Yap" routerLink="/login"></button>
+              </div>
+              <div class="col-6">
+                <button
+                  pButton
+                  type="submit"
+                  label="Kayıt yap"
+                  [disabled]="UserForm.invalid"
+                ></button>
+              </div>
+            </div>
+          </div>
+        </p-card>
+      </form>
+    </div>
+    <div class="col-0 md:col-4"></div>
+  </div>
+</div>
