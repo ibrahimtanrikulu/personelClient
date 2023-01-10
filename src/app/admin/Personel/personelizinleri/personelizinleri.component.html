@@ -1,4 +1,3 @@
-
 <p-card header="Personel izinleri">
   <p-toolbar styleClass="mb-4">
     <ng-template pTemplate="left">
@@ -71,8 +70,8 @@
               </ng-template>
               <ng-template pTemplate="body" let-personelIzin>
                 <tr>
-                  <td>{{ personelIzin.baslangicGun }}</td>
-                  <td>{{ personelIzin.bitisGun }}</td>
+                  <td>{{ personelIzin.baslangicGun | date:"dd/MM/yy" }}</td>
+                  <td>{{ personelIzin.bitisGun | date:"dd/MM/yy" }}</td>
                   <td>{{ personelIzin.turu }}</td>
                   <td>{{ personelIzin.neden }}</td>
 

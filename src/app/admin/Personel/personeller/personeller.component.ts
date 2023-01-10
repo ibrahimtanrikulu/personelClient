@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -23,7 +23,6 @@ import { PersonelBanka } from 'src/app/Interface/Personel/personelBanka';
 import { PersonelSirket } from 'src/app/Interface/Personel/personelSirket';
 import { PersonelService } from 'src/app/Services/Personel/personel.service';
 import { DepartmanRolService } from 'src/app/Services/Departman/departmanRol.service';
-import { NgxFileDropEntry } from 'ngx-file-drop';
 import { GenericService } from 'src/app/Services/generic.service';
 
 @Component({
@@ -33,33 +32,34 @@ import { GenericService } from 'src/app/Services/generic.service';
   providers: [ConfirmationService, MessageService, DialogService],
 })
 export class PersonellerComponent implements OnInit {
-  TabloCols: any[] = [];
+  //Personel
   TabloData: Personel[] = [];
-  selectedPersonel?: any;
   PersonelDialog: boolean = false;
-  SilPersonel: boolean = false;
   saveVsUpdatePersonel: boolean = false;
   personel: Personel = {};
   public PersonelForm!: FormGroup;
 
+  //sube-departman-departmanRol
   departmanListe: Departman[] = [];
   subeListe: Sube[] = [];
   departmanRolListe: DepartmanRol[] = [];
   filterDepartmanListe: Departman[] = [];
   filterDepartmanRolListe: DepartmanRol[] = [];
 
-  ulke: any[] = [];
-  cinsiyet: any[] = [];
-  kanGrubu: any[] = [];
-  medeniHal: any[] = [];
-  lisansDerece: any[] = [];
-  EgitimDurumu: any[] = [];
-  bolumu: any[] = [];
-  il: any[] = [];
-  ilce: any[] = [];
-  calismaTipi: any[] = [];
-  calisanTipi: any[] = [];
-  bankaAdi: any[] = [];
+  //Temel Data
+  ulke: string[] = [];
+  cinsiyet: string[] = [];
+  kanGrubu: string[] = [];
+  medeniHal: string[] = [];
+  lisansDerece: string[] = [];
+  EgitimDurumu: string[] = [];
+  bolumu: string[] = [];
+  il: string[] = [];
+  ilce: string[] = [];
+  calismaTipi: string[] = [];
+  calisanTipi: string[] = [];
+  bankaAdi: string[] = [];
+  maxTarih: Date = new Date('2005-08-02T21:00:00');
 
   //deneyim
   DeneyimListe: PersonelDeneyim[] = [];
@@ -82,6 +82,45 @@ export class PersonellerComponent implements OnInit {
   ) {
     this.Temeldata();
     this.getAll();
+    this.createForm();
+  }
+  ngOnInit(): void {}
+  Temeldata() {
+    this.ulke = ['Türkiye', 'Abd', 'İngiltere'];
+    this.cinsiyet = ['Erkek', 'Kadın'];
+    this.kanGrubu = [
+      'ARh+',
+      'ARh-',
+      'BRh+',
+      'BRh-',
+      'ABRh-',
+      'ABRh+',
+      '0Rh+',
+      '0Rh-',
+    ];
+    this.medeniHal = ['Evli', 'Bekar'];
+    this.lisansDerece = ['Önlisans', 'Lisans'];
+    this.EgitimDurumu = ['Ünüversite', 'Lise', 'Ortaokul', 'ilkOkul'];
+    this.bolumu = ['Mühendis', 'İşletme', 'Fen bilimleri', 'Matematik'];
+    this.il = ['Muğla', 'izmir', 'Pekin', 'London'];
+    this.ilce = ['Menteşe', 'Marmaris', 'Bodrum', 'Fethiye'];
+    this.calismaTipi = ['Tam zamanlı', 'Stajer', 'Yarı zamanlı'];
+    this.calisanTipi = ['Normal', 'Emekli'];
+    this.bankaAdi = ['Yapı kredi', 'Akbank', 'Vakıf bank'];
+  }
+  getAll() {
+    this.personelService.getList().subscribe((s) => (this.TabloData = s));
+    this.departmanService.read().subscribe((s) => (this.departmanListe = s));
+    this.departmanRolService
+      .read()
+      .subscribe((s) => (this.departmanRolListe = s));
+    this.subeService.read().subscribe((s) => (this.subeListe = s));
+
+    setTimeout(() => {
+      console.log(this.TabloData, 'bütün veri');
+    }, 500);
+  }
+  createForm() {
     this.DeneyimCols = [
       { field: 'sirketIsmi', header: 'Şirket Adı' },
       { field: 'yil', header: 'Yıl' },
@@ -94,104 +133,6 @@ export class PersonellerComponent implements OnInit {
       yil: new FormControl(0, [Validators.required]),
       pozisyon: new FormControl('', [Validators.required]),
     });
-    this.createForm();
-  }
-
-  ngOnInit(): void {}
-  Temeldata() {
-    this.ulke = [
-      { id: 1, text: 'Türkiye' },
-      { id: 2, text: 'Abd' },
-      { id: 3, text: 'İngiltere' },
-    ];
-    this.cinsiyet = [
-      { id: 1, text: 'Erkek' },
-      { id: 2, text: 'Kadın' },
-    ];
-    this.kanGrubu = [
-      { id: 1, text: 'ARh+' },
-      { id: 2, text: 'ARh-' },
-      { id: 3, text: 'BRh+' },
-      { id: 4, text: 'BRh-' },
-      { id: 5, text: 'ABRh-' },
-      { id: 6, text: 'ABRh+' },
-      { id: 7, text: '0Rh+' },
-      { id: 8, text: '0Rh-' },
-    ];
-    this.medeniHal = [
-      { id: 1, text: 'Evli' },
-      { id: 2, text: 'Bekar' },
-    ];
-    this.lisansDerece = [
-      { id: 1, text: 'Önlisans' },
-      { id: 2, text: 'Lisans' },
-    ];
-    this.EgitimDurumu = [
-      { id: 1, text: 'Ünüversite' },
-      { id: 2, text: 'Lise' },
-      { id: 3, text: 'Ortaokul' },
-      { id: 4, text: 'ilkOkul' },
-    ];
-    this.bolumu = [
-      { id: 1, text: 'Mühendis' },
-      { id: 2, text: 'İşletme' },
-      { id: 3, text: 'Fen bilimleri' },
-      { id: 4, text: 'Matematik' },
-    ];
-    this.il = [
-      { id: 1, text: 'Muğla' },
-      { id: 2, text: 'izmir' },
-      { id: 3, text: 'Pekin' },
-      { id: 4, text: 'London' },
-    ];
-    this.ilce = [
-      { id: 1, text: 'Menteşe' },
-      { id: 2, text: 'Marmaris' },
-      { id: 3, text: 'Bodrum' },
-      { id: 4, text: 'Fethiye' },
-    ];
-    this.calismaTipi = [
-      { id: 1, text: 'Tam zamanlı' },
-      { id: 2, text: 'Stajer' },
-      { id: 3, text: 'Yarı zamanlı' },
-    ];
-    this.calisanTipi = [
-      { id: 1, text: 'Normal' },
-      { id: 2, text: 'Emekli' },
-    ];
-    this.bankaAdi = [
-      { id: 1, text: 'Yapı kredi' },
-      { id: 2, text: 'Akbank' },
-      { id: 3, text: 'Vakıf bank' },
-    ];
-  }
-  getAll() {
-    this.personelService.getList().subscribe((s) => (this.TabloData = s));
-    this.departmanService.read().subscribe((s) => (this.departmanListe = s));
-    this.departmanRolService
-      .read()
-      .subscribe((s) => (this.departmanRolListe = s));
-    this.subeService.read().subscribe((s) => (this.subeListe = s));
-  }
-  filterDepartmanChange(e: any) {
-    this.filterDepartmanListe = [];
-    let id = e.value.id;
-    this.departmanListe.filter((f) => {
-      if (f.subeId == id) {
-        this.filterDepartmanListe.push(f);
-      }
-    });
-  }
-  filterDepartmanRolChange(e: any) {
-    this.filterDepartmanRolListe = [];
-    let id = e.value.id;
-    this.departmanRolListe.filter((f) => {
-      if (f.departmanId == id) {
-        this.filterDepartmanRolListe.push(f);
-      }
-    });
-  }
-  createForm() {
     this.PersonelForm = this.formBuilder.group({
       id: new FormControl(this.personel.id ? this.personel?.id : ''),
 
@@ -361,12 +302,6 @@ export class PersonellerComponent implements OnInit {
           : '',
         [Validators.required]
       ),
-      SigortaVergiOrani: new FormControl(
-        this.personel.personelSigorta?.VergiOrani
-          ? this.personel.personelSigorta?.VergiOrani
-          : '',
-        [Validators.required]
-      ),
       SigortaCikisNedeni: new FormControl(
         this.personel.personelSigorta?.cikisNedeni
           ? this.personel.personelSigorta?.cikisNedeni
@@ -481,39 +416,57 @@ export class PersonellerComponent implements OnInit {
       ),
     });
   }
+  //sube-departman-departmanRol method
+  filterDepartmanChange(e: any) {
+    this.filterDepartmanListe = [];
+    let id = e.value.id;
+    this.departmanListe.filter((f) => {
+      if (f.subeId == id) {
+        this.filterDepartmanListe.push(f);
+      }
+    });
+  }
+  filterDepartmanRolChange(e: any) {
+    this.filterDepartmanRolListe = [];
+    let id = e.value.id;
+    this.departmanRolListe.filter((f) => {
+      if (f.departmanId == id) {
+        this.filterDepartmanRolListe.push(f);
+      }
+    });
+  }
+
+  //personel method
   editButton(e: Personel) {
     this.personel = e;
     this.PersonelDialog = true;
     this.saveVsUpdatePersonel = false;
     this.createForm();
-    e.personelDeneyim?.map((m) => {
-      this.DeneyimListe.push(m);
-    });
-    this.personel = {};
   }
   addPersonelButton() {
+    this.PersonelForm.reset();
+    this.personel = {};
     this.saveVsUpdatePersonel = true;
     this.PersonelDialog = true;
-    this.personel = {};
   }
   save() {
     if (this.saveVsUpdatePersonel) {
       this.personel = <Personel>{
         personelAdres: <PersonelAdres>{
           acikAdres: this.PersonelForm.value.AdresAcikAdres,
-          il: this.PersonelForm.value.AdresIl.text,
-          ilce: this.PersonelForm.value.AdresIlce.text,
+          il: this.PersonelForm.value.AdresIl,
+          ilce: this.PersonelForm.value.AdresIlce,
           mahalle: this.PersonelForm.value.AdresMahalle,
           postaKodu: this.PersonelForm.value.AdresPostaKodu,
           sokak: this.PersonelForm.value.AdresSokak,
-          ulke: this.PersonelForm.value.AdresUlke.text,
+          ulke: this.PersonelForm.value.AdresUlke,
         },
         personelEgitim: <PersonelEgitim>{
-          bolum: this.PersonelForm.value.EgitimBolum.text,
+          bolum: this.PersonelForm.value.EgitimBolum,
           doktora: this.PersonelForm.value.EgitimDoktora,
-          egitimDurumu: this.PersonelForm.value.EgitimDurumu.text,
+          egitimDurumu: this.PersonelForm.value.EgitimDurumu,
           ilkOkul: this.PersonelForm.value.EgitimIlkOkul,
-          lisansDerecesi: this.PersonelForm.value.EgitimLisansDerecesi.text,
+          lisansDerecesi: this.PersonelForm.value.EgitimLisansDerecesi,
           lise: this.PersonelForm.value.EgitimLise,
           notOrtalamasi: this.PersonelForm.value.EgitimNotOratalamasi,
           ortaOkul: this.PersonelForm.value.EgitimOrtaOkul,
@@ -521,21 +474,21 @@ export class PersonellerComponent implements OnInit {
           yuksekLisans: this.PersonelForm.value.EgitimYuksekLisans,
         },
         personelKimlik: <PersonelKimlik>{
-          cinsiyet: this.PersonelForm.value.KimlikCinsiyet.text,
+          cinsiyet: this.PersonelForm.value.KimlikCinsiyet,
           dogumTarihi: this.PersonelForm.value.KimlikDogumTarihi,
-          dogumYeri: this.PersonelForm.value.KimlikDogumYeri.text,
+          dogumYeri: this.PersonelForm.value.KimlikDogumYeri,
           isim: this.PersonelForm.value.KimlikIsim,
-          kanGrubu: this.PersonelForm.value.KimlikKanGrubu.text,
-          medeniHal: this.PersonelForm.value.KimlikMedeniHal.text,
+          kanGrubu: this.PersonelForm.value.KimlikKanGrubu,
+          medeniHal: this.PersonelForm.value.KimlikMedeniHal,
           cocukSayisi: this.PersonelForm.value.KimlikCocukSayisi,
           seriNo: this.PersonelForm.value.KimlikSeriNo,
           soyad: this.PersonelForm.value.KimlikSoyad,
           tc: this.PersonelForm.value.KimlikTc,
-          uyruk: this.PersonelForm.value.KimlikUyruk.text,
+          uyruk: this.PersonelForm.value.KimlikUyruk,
         },
         personelSigorta: <PersonelSigorta>{
-          calismaTipi: this.PersonelForm.value.SigortaCalismaTipi.text,
-          calisanTipi: this.PersonelForm.value.SigortaCalisanTipi.text,
+          calismaTipi: this.PersonelForm.value.SigortaCalismaTipi,
+          calisanTipi: this.PersonelForm.value.SigortaCalisanTipi,
           cikisNedeni: this.PersonelForm.value.SigortaCikisNedeni,
           cikisTarihi: this.PersonelForm.value.SigortaCikisTarihi,
           ciktimi: this.PersonelForm.value.ciktimi,
@@ -550,7 +503,7 @@ export class PersonellerComponent implements OnInit {
           telefon: this.PersonelForm.value.iletisimTelefon,
         },
         personelBanka: <PersonelBanka>{
-          bankaAdi: this.PersonelForm.value.bankaAdi.text,
+          bankaAdi: this.PersonelForm.value.bankaAdi,
           iban: this.PersonelForm.value.bankaIban,
           hesapNo: this.PersonelForm.value.hesapNo,
         },
@@ -569,20 +522,20 @@ export class PersonellerComponent implements OnInit {
         personelAdres: <PersonelAdres>{
           id: id,
           acikAdres: this.PersonelForm.value.AdresAcikAdres,
-          il: this.PersonelForm.value.AdresIl.text,
-          ilce: this.PersonelForm.value.AdresIlce.text,
+          il: this.PersonelForm.value.AdresIl,
+          ilce: this.PersonelForm.value.AdresIlce,
           mahalle: this.PersonelForm.value.AdresMahalle,
           postaKodu: this.PersonelForm.value.AdresPostaKodu,
           sokak: this.PersonelForm.value.AdresSokak,
-          ulke: this.PersonelForm.value.AdresUlke.text,
+          ulke: this.PersonelForm.value.AdresUlke,
         },
         personelEgitim: <PersonelEgitim>{
           id: id,
-          bolum: this.PersonelForm.value.EgitimBolum.text,
+          bolum: this.PersonelForm.value.EgitimBolum,
           doktora: this.PersonelForm.value.EgitimDoktora,
-          egitimDurumu: this.PersonelForm.value.EgitimDurumu.text,
+          egitimDurumu: this.PersonelForm.value.EgitimDurumu,
           ilkOkul: this.PersonelForm.value.EgitimIlkOkul,
-          lisansDerecesi: this.PersonelForm.value.EgitimLisansDerecesi.text,
+          lisansDerecesi: this.PersonelForm.value.EgitimLisansDerecesi,
           lise: this.PersonelForm.value.EgitimLise,
           notOrtalamasi: this.PersonelForm.value.EgitimNotOratalamasi,
           ortaOkul: this.PersonelForm.value.EgitimOrtaOkul,
@@ -591,22 +544,22 @@ export class PersonellerComponent implements OnInit {
         },
         personelKimlik: <PersonelKimlik>{
           id: id,
-          cinsiyet: this.PersonelForm.value.KimlikCinsiyet.text,
+          cinsiyet: this.PersonelForm.value.KimlikCinsiyet,
           dogumTarihi: this.PersonelForm.value.KimlikDogumTarihi,
-          dogumYeri: this.PersonelForm.value.KimlikDogumYeri.text,
+          dogumYeri: this.PersonelForm.value.KimlikDogumYeri,
           isim: this.PersonelForm.value.KimlikIsim,
-          kanGrubu: this.PersonelForm.value.KimlikKanGrubu.text,
-          medeniHal: this.PersonelForm.value.KimlikMedeniHal.text,
+          kanGrubu: this.PersonelForm.value.KimlikKanGrubu,
+          medeniHal: this.PersonelForm.value.KimlikMedeniHal,
           cocukSayisi: this.PersonelForm.value.KimlikCocukSayisi,
           seriNo: this.PersonelForm.value.KimlikSeriNo,
           soyad: this.PersonelForm.value.KimlikSoyad,
           tc: this.PersonelForm.value.KimlikTc,
-          uyruk: this.PersonelForm.value.KimlikUyruk.text,
+          uyruk: this.PersonelForm.value.KimlikUyruk,
         },
         personelSigorta: <PersonelSigorta>{
           id: id,
           brutUcret: this.PersonelForm.value.SigortaBrutUcret,
-          calismaTipi: this.PersonelForm.value.SigortaCalismaTipi.text,
+          calismaTipi: this.PersonelForm.value.SigortaCalismaTipi,
           cikisNedeni: this.PersonelForm.value.SigortaCikisNedeni,
           cikisTarihi: this.PersonelForm.value.SigortaCikisTarihi,
           ciktimi: this.PersonelForm.value.ciktimi,
@@ -624,7 +577,7 @@ export class PersonellerComponent implements OnInit {
         },
         personelBanka: <PersonelBanka>{
           id: id,
-          bankaAdi: this.PersonelForm.value.bankaAdi.text,
+          bankaAdi: this.PersonelForm.value.bankaAdi,
           iban: this.PersonelForm.value.bankaIban,
           hesapNo: this.PersonelForm.value.hesapNo,
         },
@@ -637,10 +590,11 @@ export class PersonellerComponent implements OnInit {
         },
         personelDeneyim: this.DeneyimListe,
         id: id,
-      };
+      };      
       this.personelService.updatePersonel(this.personel);
     }
   }
+
   //deneyim
   addDeneyimButton() {
     this.DeneyimForm.reset();

@@ -23,12 +23,15 @@ export class PersonelizinleriComponent implements OnInit {
     private formBuider: FormBuilder,
     private confirmationService: ConfirmationService
   ) {
-    this.personelIzinService.getList().subscribe((s) => (this.TabloData = s));
     this.createFrom();
+    this.getAll();
   }
 
   ngOnInit(): void {}
 
+  getAll() {
+    this.personelIzinService.getList().subscribe((s) => (this.TabloData = s));
+  }
   topluIzinEkleMethod(e?: any) {
     this.id = e;
     this.topluIzinEkle = true;

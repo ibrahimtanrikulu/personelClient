@@ -53,6 +53,13 @@ export class DepartmanRolComponent implements OnInit {
       { field: 'button', type: 'edit' },
     ];
 
+    this.DepartmanGetAll();
+    this.CreateForm();
+  }
+
+  ngOnInit(): void {}
+
+  CreateForm() {
     this.DepartmanForm = this.formBuilder.group({
       id: new FormControl(''),
       subeAdi: new FormControl(''),
@@ -63,10 +70,7 @@ export class DepartmanRolComponent implements OnInit {
       updateDate: new FormControl(Date),
       isActive: new FormControl(false),
     });
-    this.DepartmanGetAll();
   }
-
-  ngOnInit(): void {}
 
   filter(e: any) {
     this.filterDepartman = [];
@@ -111,10 +115,7 @@ export class DepartmanRolComponent implements OnInit {
     }, 200);
   }
 
-  DeleteDepartman(e: any) {
-    this.DeletePersonel(e);
-  }
-  DeletePersonel(e: any) {
+  DeleteDepartmanRol(e: any) {
     this.confirmationService.confirm({
       message: 'Bu Departman silmek istiyormusunuz',
       header: 'Silinsinmi',
@@ -127,6 +128,13 @@ export class DepartmanRolComponent implements OnInit {
         }, 300);
       },
     });
+  }
+
+  editButton(e: DepartmanRol) {
+    this.departmanRol = e;
+    this.DepartmanForm.setValue(this.departmanRol);
+    this.saveVsUpdate = true;
+    this.DepartmanDialog = true;
   }
 
   Save() {
@@ -151,12 +159,5 @@ export class DepartmanRolComponent implements OnInit {
       };
       this.departmanRolService.save(this.departmanRol);
     }
-  }
-
-  editButton(e: DepartmanRol) {
-    this.departmanRol = e;
-    this.DepartmanForm.setValue(this.departmanRol);
-    this.saveVsUpdate = true;
-    this.DepartmanDialog = true;
   }
 }

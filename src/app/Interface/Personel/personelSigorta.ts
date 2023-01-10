@@ -7,7 +7,6 @@ export interface PersonelSigorta extends BaseEntity {
   girisTarihi?: Date;
   cikisTarihi?: Date;
   cikisNedeni?: string;
-  VergiOrani?: number;
   netUcret?: number;
   brutUcret?: number;
   calismaTipi?: string;

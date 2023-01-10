@@ -16,7 +16,6 @@
     #dt1
     [value]="TabloData"
     selectionMode="single"
-    [(selection)]="selectedPersonel"
     dataKey="id"
   >
     <ng-template pTemplate="caption">
@@ -69,35 +68,7 @@
           <h4>Kimlik Bilgileri</h4>
           <hr />
           <div class="grid">
-            <div class="col-12 md:col-4" style="border: 1px solid blue">
-              <div
-                style="
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                "
-              >
-                <div class="center">
-                  <!-- <ngx-file-drop
-                    dropZoneLabel="Drop files here"
-                    (onFileDrop)="personelResmi($event)"
-                  >
-                    <ng-template
-                      ngx-file-drop-content-tmp
-                      let-openFileSelector="openFileSelector"
-                    >
-                      <button
-                        type="button"
-                        class="btn btn-primary"
-                        (click)="openFileSelector()"
-                      >
-                        Dosyayı yükleyin
-                      </button>
-                    </ng-template>
-                  </ngx-file-drop> -->
-                </div>
-              </div>
-            </div>
+            <div class="col-12 md:col-4" style="border: 1px solid blue"></div>
             <div class="col-12 md:col-8">
               <div class="grid">
                 <!-- 1 -->
@@ -107,6 +78,9 @@
                       id="tc"
                       type="text"
                       pInputText
+                      [maxlength]="11"
+                      [minlength]="11"
+                      placeholder="123 456 78 90"
                       class="input"
                       formControlName="KimlikTc"
                     />
@@ -146,6 +120,8 @@
                       id="seriNo"
                       type="text"
                       pInputText
+                      [maxlength]="9"
+                      [minlength]="9"
                       class="input"
                       formControlName="KimlikSeriNo"
                     />
@@ -159,8 +135,6 @@
                     <label for="KimlikUyruk">Personel Uyruk</label>
                     <p-dropdown
                       [options]="ulke"
-                      optionLabel="text"
-                      [showClear]="false"
                       formControlName="KimlikUyruk"
                     ></p-dropdown>
                   </span>
@@ -182,8 +156,6 @@
                   <span>
                     <p-dropdown
                       [options]="il"
-                      appendTo="body"
-                      optionLabel="text"
                       [showClear]="false"
                       formControlName="KimlikDogumYeri"
                     ></p-dropdown>
@@ -193,8 +165,6 @@
                 <div class="col-12 md:col-4 p-fluid">
                   <p-dropdown
                     [options]="cinsiyet"
-                    optionLabel="text"
-                    appendTo="body"
                     [showClear]="false"
                     formControlName="KimlikCinsiyet"
                   ></p-dropdown>
@@ -202,8 +172,6 @@
                 <div class="col-12 md:col-4 p-fluid">
                   <p-dropdown
                     [options]="kanGrubu"
-                    optionLabel="text"
-                    appendTo="body"
                     [showClear]="false"
                     formControlName="KimlikKanGrubu"
                   ></p-dropdown>
@@ -213,8 +181,6 @@
                   <label for="minmax-buttons">Medeni Hal</label>
                   <p-dropdown
                     [options]="medeniHal"
-                    optionLabel="text"
-                    appendTo="body"
                     [showClear]="false"
                     formControlName="KimlikMedeniHal"
                   ></p-dropdown>
@@ -286,7 +252,7 @@
               <span class="p-float-label">
                 <input
                   id="Email"
-                  type="text"
+                  type="email"
                   pInputText
                   class="input"
                   formControlName="iletisimEmail"
@@ -300,7 +266,10 @@
                   id="telefon"
                   type="text"
                   pInputText
+                  [maxlength]="11"
+                  [minlength]="11"
                   class="input"
+                  placeholder="0512 123 45 67"
                   formControlName="iletisimTelefon"
                 />
                 <label class="label" for="telefon">Cep Telefon</label>
@@ -327,7 +296,6 @@
               <span>
                 <p-dropdown
                   [options]="ulke"
-                  optionLabel="text"
                   appendTo="body"
                   [showClear]="false"
                   formControlName="AdresUlke"
@@ -340,7 +308,6 @@
                 <p-dropdown
                   [options]="il"
                   appendTo="body"
-                  optionLabel="text"
                   [showClear]="false"
                   formControlName="AdresIl"
                 ></p-dropdown>
@@ -351,7 +318,6 @@
               <span>
                 <p-dropdown
                   [options]="ilce"
-                  optionLabel="text"
                   [showClear]="false"
                   appendTo="body"
                   formControlName="AdresIlce"
@@ -363,7 +329,7 @@
               <span class="p-float-label">
                 <input
                   id="Email"
-                  type="text"
+                  type="number"
                   pInputText
                   class="input"
                   formControlName="AdresPostaKodu"
@@ -455,7 +421,6 @@
                 <label class="label">Çalışma Tipi</label>
                 <p-dropdown
                   [options]="calismaTipi"
-                  optionLabel="text"
                   appendTo="body"
                   [showClear]="false"
                   formControlName="SigortaCalismaTipi"
@@ -468,7 +433,6 @@
                 <label class="label">Çalışan Tipi</label>
                 <p-dropdown
                   [options]="calisanTipi"
-                  optionLabel="text"
                   appendTo="body"
                   [showClear]="false"
                   formControlName="SigortaCalisanTipi"
@@ -531,7 +495,6 @@
                 <label class="label">Banka Adı</label>
                 <p-dropdown
                   [options]="bankaAdi"
-                  optionLabel="text"
                   appendTo="body"
                   [showClear]="false"
                   formControlName="bankaAdi"
@@ -539,9 +502,11 @@
               </span>
             </div>
             <div class="col-8 md:col-8 p-fluid">
-              <label for="integeronly">İban</label>
+              <label for="bankaIban">İban</label>
               <input
-                id="meslekKodu"
+                id="bankaIban"
+                [minlength]="26"
+                [maxlength]="26"
                 type="text"
                 pInputText
                 class="input"
@@ -568,7 +533,6 @@
               <span>
                 <p-dropdown
                   [options]="EgitimDurumu"
-                  optionLabel="text"
                   [showClear]="false"
                   formControlName="EgitimDurumu"
                 ></p-dropdown>
@@ -618,7 +582,6 @@
               <span>
                 <p-dropdown
                   [options]="bolumu"
-                  optionLabel="text"
                   appendTo="body"
                   [showClear]="false"
                   formControlName="EgitimBolum"
@@ -643,7 +606,6 @@
               <span>
                 <p-dropdown
                   [options]="lisansDerece"
-                  optionLabel="text"
                   [showClear]="false"
                   appendTo="body"
                   formControlName="EgitimLisansDerecesi"
@@ -727,13 +689,6 @@
                     {{ rowData[col.field] }}
                   </div>
                   <div *ngIf="col.field == 'button'">
-                    <!-- <button
-                      pButton
-                      pRipple
-                      icon="pi pi-pencil"
-                      class="p-button-rounded p-button-success p-mr-2 mx-2"
-                      (click)="editDeneyimButton(rowData)"
-                    ></button> -->
                     <button
                       pButton
                       pRipple
