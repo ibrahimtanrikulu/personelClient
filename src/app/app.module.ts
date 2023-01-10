@@ -51,6 +51,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { PersonelIstifaComponent } from './admin/Personel/personel-istifa/personel-istifa.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { TazminatHesaplaComponent } from './admin/Personel/tazminat-hesapla/tazminat-hesapla.component';
+import { PersonelMesaiComponent } from './admin/Personel/personel-mesai/personel-mesai.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { TazminatHesaplaComponent } from './admin/Personel/tazminat-hesapla/tazm
     PersonelizinleriComponent,
     PersonelIstifaComponent,
     TazminatHesaplaComponent,
+    PersonelMesaiComponent,
   ],
   imports: [
     BrowserModule,
