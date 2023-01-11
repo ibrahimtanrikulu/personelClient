@@ -19,9 +19,9 @@ export class PersonelMaasComponent implements OnInit {
   TabloData: PersonelMaasHesaplaModel[] = [];
   personel: PersonelMaasHesaplaModel = {};
   dialogDisplay: boolean = false;
-  netBrut: boolean = false;
-  cocukSayisi: number = 0;
-  medeniDurum: string = '';
+  netBrut: string = '';
+  cocukSayisi?: number;
+  medeniDurum?: string = '';
   spiph: boolean = false;
 
   deneme: any[] = [];
@@ -90,91 +90,123 @@ export class PersonelMaasComponent implements OnInit {
   maasHesaplaDialog(e: PersonelMaasHesaplaModel) {
     this.dialogDisplay = true;
     this.personel = e;
-    this.deneme = [
-      {
-        ay: 'ocak',
-        maas: this.personel.personelSigorta?.brutUcret
-          ? this.personel.personelSigorta?.brutUcret
-          : 0,
-      },
-      {
-        ay: 'subat',
-        maas: this.personel.personelSigorta?.brutUcret
-          ? this.personel.personelSigorta?.brutUcret
-          : 0,
-      },
-      {
-        ay: 'mart',
-        maas: this.personel.personelSigorta?.brutUcret
-          ? this.personel.personelSigorta?.brutUcret
-          : 0,
-      },
-      {
-        ay: 'nisan',
-        maas: this.personel.personelSigorta?.brutUcret
-          ? this.personel.personelSigorta?.brutUcret
-          : 0,
-      },
-      {
-        ay: 'mayıs',
-        maas: this.personel.personelSigorta?.brutUcret
-          ? this.personel.personelSigorta?.brutUcret
-          : 0,
-      },
-      {
-        ay: 'haziran',
-        maas: this.personel.personelSigorta?.brutUcret
-          ? this.personel.personelSigorta?.brutUcret
-          : 0,
-      },
-      {
-        ay: 'temmuz',
-        maas: this.personel.personelSigorta?.brutUcret
-          ? this.personel.personelSigorta?.brutUcret
-          : 0,
-      },
-      {
-        ay: 'agustos',
-        maas: this.personel.personelSigorta?.brutUcret
-          ? this.personel.personelSigorta?.brutUcret
-          : 0,
-      },
-      {
-        ay: 'eylül',
-        maas: this.personel.personelSigorta?.brutUcret
-          ? this.personel.personelSigorta?.brutUcret
-          : 0,
-      },
-      {
-        ay: 'ekim',
-        maas: this.personel.personelSigorta?.brutUcret
-          ? this.personel.personelSigorta?.brutUcret
-          : 0,
-      },
-      {
-        ay: 'kasım',
-        maas: this.personel.personelSigorta?.brutUcret
-          ? this.personel.personelSigorta?.brutUcret
-          : 0,
-      },
-      {
-        ay: 'aralık',
-        maas: this.personel.personelSigorta?.brutUcret
-          ? this.personel.personelSigorta?.brutUcret
-          : 0,
-      },
-    ];
-    if (
-      this.personel.personelKimlik?.medeniHal &&
-      this.personel.personelKimlik?.cocukSayisi &&
-      this.personel.personelSigorta?.sigortaPrimiIsverenIndirim
-    ) {
-      this.medeniDurum = this.personel.personelKimlik?.medeniHal;
-      this.cocukSayisi = this.personel.personelKimlik.cocukSayisi;
-      this.spiph = this.personel.personelSigorta.sigortaPrimiIsverenIndirim;
+    this.medeniDurum = this.personel.personelKimlik?.medeniHal;
+    if (this.personel.personelSigorta?.sigortaPrimiIsverenIndirim) {
+      this.spiph = this.personel.personelSigorta?.sigortaPrimiIsverenIndirim;
     }
-    console.log(this.medeniDurum, this.cocukSayisi, this.spiph);
+    this.cocukSayisi = this.personel.personelKimlik?.cocukSayisi;
   }
 
-  maasHesapla() {}
+  brut: any;
+  maasTuruSec() {
+    if (this.netBrut == 'Brut') {
+      this.brut = this.personel.personelSigorta?.brutUcret;
+      this.deneme = [
+        {
+          ay: 'ocak',
+          maas: this.brut ? this.brut : 0,
+        },
+        {
+          ay: 'subat',
+          maas: this.brut ? this.brut : 0,
+        },
+        {
+          ay: 'mart',
+          maas: this.brut ? this.brut : 0,
+        },
+        {
+          ay: 'nisan',
+          maas: this.brut ? this.brut : 0,
+        },
+        {
+          ay: 'mayıs',
+          maas: this.brut ? this.brut : 0,
+        },
+        {
+          ay: 'haziran',
+          maas: this.brut ? this.brut : 0,
+        },
+        {
+          ay: 'temmuz',
+          maas: this.brut ? this.brut : 0,
+        },
+        {
+          ay: 'agustos',
+          maas: this.brut ? this.brut : 0,
+        },
+        {
+          ay: 'eylül',
+          maas: this.brut ? this.brut : 0,
+        },
+        {
+          ay: 'ekim',
+          maas: this.brut ? this.brut : 0,
+        },
+        {
+          ay: 'kasım',
+          maas: this.brut ? this.brut : 0,
+        },
+        {
+          ay: 'aralık',
+          maas: this.brut ? this.brut : 0,
+        },
+      ];
+    } else if (this.netBrut == 'Net') {
+      let net = this.personel.personelSigorta?.netUcret;
+      this.deneme = [
+        {
+          ay: 'ocak',
+          maas: net ? net : 0,
+        },
+        {
+          ay: 'subat',
+          maas: net ? net : 0,
+        },
+        {
+          ay: 'mart',
+          maas: net ? net : 0,
+        },
+        {
+          ay: 'nisan',
+          maas: net ? net : 0,
+        },
+        {
+          ay: 'mayıs',
+          maas: net ? net : 0,
+        },
+        {
+          ay: 'haziran',
+          maas: net ? net : 0,
+        },
+        {
+          ay: 'temmuz',
+          maas: net ? net : 0,
+        },
+        {
+          ay: 'agustos',
+          maas: net ? net : 0,
+        },
+        {
+          ay: 'eylül',
+          maas: net ? net : 0,
+        },
+        {
+          ay: 'ekim',
+          maas: net ? net : 0,
+        },
+        {
+          ay: 'kasım',
+          maas: net ? net : 0,
+        },
+        {
+          ay: 'aralık',
+          maas: net ? net : 0,
+        },
+      ];
+    }
+  }
+
+  maasHesapla() {
+    console.log(this.brut, this.personel.personelSigorta?.netUcret);
+  }
 }

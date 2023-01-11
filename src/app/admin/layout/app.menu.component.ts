@@ -47,6 +47,11 @@ export class AppMenuComponent implements OnInit {
             icon: 'pi pi-fw pi-check-square',
             routerLink: ['/layout/personelIstifa'],
           },
+          {
+            label: 'personel mesai işlemleri',
+            icon: 'pi pi-fw pi-check-square',
+            routerLink: ['/layout/personelMesaileri'],
+          },
         ],
       },
 

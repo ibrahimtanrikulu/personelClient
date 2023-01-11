@@ -5,6 +5,7 @@ import { DepartmanComponent } from './admin/departman/departman.component';
 import { AppLayoutComponent } from './admin/layout/app.layout.component';
 import { PersonelIstifaComponent } from './admin/Personel/personel-istifa/personel-istifa.component';
 import { PersonelMaasComponent } from './admin/Personel/personel-maas/personel-maas.component';
+import { PersonelMesaiComponent } from './admin/Personel/personel-mesai/personel-mesai.component';
 import { PersonelizinleriComponent } from './admin/Personel/personelizinleri/personelizinleri.component';
 import { PersonellerComponent } from './admin/Personel/personeller/personeller.component';
 import { SubeComponent } from './admin/sube/sube.component';
@@ -24,6 +25,7 @@ const routes: Routes = [
         path: 'personeller',
         component: PersonellerComponent,
       },
+      { path: 'personelMesaileri', component: PersonelMesaiComponent },
       { path: 'personelMaaslari', component: PersonelMaasComponent },
       { path: 'personelizinleri', component: PersonelizinleriComponent },
       { path: 'personelIstifa', component: PersonelIstifaComponent },
