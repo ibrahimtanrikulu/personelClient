@@ -19,7 +19,7 @@ export class AppMenuComponent implements OnInit {
           {
             label: 'anasayfa',
             icon: 'pi pi-fw pi-home',
-            routerLink: ['/layout'],
+            routerLink: ['/layout/home'],
           },
         ],
       },

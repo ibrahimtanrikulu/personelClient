@@ -1,0 +1,32 @@
+.info-container {
+  border: 1px solid whitesmoke;
+  height: 100%;
+  width: 100%;
+  border-radius: 20px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  display: flex;
+  flex-wrap: wrap;
+  .l-mini-container {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 8%;
+    h5 {
+      opacity: 0.8;
+    }
+    p {
+      font-size: large;
+      opacity: 1;
+    }
+  }
+  .r-mini-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 8%;
+    
+  }
+}

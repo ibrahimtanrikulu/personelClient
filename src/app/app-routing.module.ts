@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DepartmanRolComponent } from './admin/departman-rol/departman-rol.component';
 import { DepartmanComponent } from './admin/departman/departman.component';
+import { HomeComponent } from './admin/home/home.component';
 import { AppLayoutComponent } from './admin/layout/app.layout.component';
 import { PersonelIstifaComponent } from './admin/Personel/personel-istifa/personel-istifa.component';
 import { PersonelMaasComponent } from './admin/Personel/personel-maas/personel-maas.component';
@@ -21,6 +22,7 @@ const routes: Routes = [
     component: AppLayoutComponent,
     canActivate: [AuthGuard],
     children: [
+      { path: 'home', component: HomeComponent },
       {
         path: 'personeller',
         component: PersonellerComponent,
@@ -31,7 +33,6 @@ const routes: Routes = [
       { path: 'personelIstifa', component: PersonelIstifaComponent },
       { path: 'departmanlar', component: DepartmanComponent },
       { path: 'departmanRol', component: DepartmanRolComponent },
-
       { path: 'subeler', component: SubeComponent },
     ],
   },

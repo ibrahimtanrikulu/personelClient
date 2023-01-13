@@ -52,6 +52,7 @@ import { PersonelIstifaComponent } from './admin/Personel/personel-istifa/person
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { TazminatHesaplaComponent } from './admin/Personel/tazminat-hesapla/tazminat-hesapla.component';
 import { PersonelMesaiComponent } from './admin/Personel/personel-mesai/personel-mesai.component';
+import { HomeComponent } from './admin/home/home.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { PersonelMesaiComponent } from './admin/Personel/personel-mesai/personel
     PersonelIstifaComponent,
     TazminatHesaplaComponent,
     PersonelMesaiComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

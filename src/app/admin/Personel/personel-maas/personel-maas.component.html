@@ -83,19 +83,15 @@
 </p-card>
 
 <p-dialog
-  header="Ücret hesapla"
   [(visible)]="dialogDisplay"
   [draggable]="false"
   [resizable]="false"
   [style]="{ width: '80vw' }"
 >
-  <p-card
+  <p-card header="Bordro Hesaplama"
     ><div class="grid">
       <div class="col-12 md:col-2 p-fluid">
-        <label class="label">Hesaplama</label>
-        <div
-          style="display: flex; justify-content: flex-start; margin-top: 10px"
-        >
+        <div style="display: flex; justify-content: flex-start">
           <div class="field-radiobutton mx-3">
             <p-radioButton
               name="Net"
@@ -118,48 +114,15 @@
           </div>
         </div>
       </div>
-      <div class="col-12 md:col-3 p-fluid">
-        <label class="label" for="">Medeni durumu</label>
-        <input
-          type="text"
-          pInputText
-          [disabled]="true"
-          [(ngModel)]="medeniDurum"
-          class="input"
-        />
-      </div>
-      <div class="col-12 md:col-2 p-fluid">
-        <label class="label" for="">Çocuk sayısı</label>
-        <input
-          type="text"
-          pInputText
-          [disabled]="true"
-          [(ngModel)]="cocukSayisi"
-          class="input"
-        />
-      </div>
-      <div class="col-12 md:col-5 p-fluid">
-        <div class="field-checkbox mt-4">
-          <p-checkbox
-            [binary]="true"
-            inputId="binary"
-            [(ngModel)]="spiph"
-          ></p-checkbox>
-          <label for="binary"
-            >Sigorta primi işveren payının hesabında, 5 puanlık indirim dikkate
-            alınsın.</label
-          >
-        </div>
-      </div>
     </div>
   </p-card>
 
-  <div class="grid">
+  <div class="grid mt-2">
     <div class="col-12 p-fluid">
       <p-card>
         <p-table
           dataKey="id"
-          [value]="deneme"
+          [value]="maasData"
           [resizableColumns]="true"
           styleClass="p-datatable-gridlines"
         >
@@ -172,19 +135,39 @@
               <th>Aylık Gelir Vergisi</th>
               <th>Damga Vergisi</th>
               <th>Kümülatif Vergi Matrahı</th>
-              <th>Bürüt & net</th>
+              <th *ngIf="this.netBrut == 'Net'">Brüt</th>
+              <th *ngIf="this.netBrut == 'Brut'">net</th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-maas let-editing="editing">
-            <tr>
+            <tr *ngIf="this.netBrut == 'Brut'">
               <td>{{ maas.ay }}</td>
               <td [pEditableColumn]="maas.maas" pEditableColumnField="maas">
                 <p-cellEditor>
                   <ng-template pTemplate="input">
-                    <input pInputText type="text" [(ngModel)]="maas.maas" />
+                    <p-inputNumber [(ngModel)]="brut"></p-inputNumber>
                   </ng-template>
                   <ng-template pTemplate="output">
-                    {{ maas.maas }}
+                    {{ brut }}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td>{{ SSKprimi.toFixed() }}</td>
+              <td>{{ sigortasiIscininPayi.toFixed() }}</td>
+              <td></td>
+              <td>{{ DamgaVergisiMiktari.toFixed() }}</td>
+              <td>{{ GelirVergisininMatrahi.toFixed() }}</td>
+              <td>{{ net.toFixed() }}</td>
+            </tr>
+            <tr *ngIf="this.netBrut == 'Net'">
+              <td>{{ maas.ay }}</td>
+              <td [pEditableColumn]="maas.maas" pEditableColumnField="maas">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <p-inputNumber [(ngModel)]="net"></p-inputNumber>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{ net }}
                   </ng-template>
                 </p-cellEditor>
               </td>
@@ -194,8 +177,7 @@
               <td></td>
               <td></td>
               <td></td>
-            </tr>
-          </ng-template> </p-table
+            </tr> </ng-template></p-table
       ></p-card>
     </div>
   </div>

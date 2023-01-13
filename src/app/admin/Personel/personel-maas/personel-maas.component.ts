@@ -20,11 +20,12 @@ export class PersonelMaasComponent implements OnInit {
   personel: PersonelMaasHesaplaModel = {};
   dialogDisplay: boolean = false;
   netBrut: string = '';
+
   cocukSayisi?: number;
   medeniDurum?: string = '';
   spiph: boolean = false;
 
-  deneme: any[] = [];
+  maasData: any[] = [];
 
   departmanListe: Departman[] = [];
   subeListe: Sube[] = [];
@@ -98,10 +99,17 @@ export class PersonelMaasComponent implements OnInit {
   }
 
   brut: any;
+  toplamBrut: number = 0;
+  net: any;
+  SSKprimi: number = 0;
+  sigortasiIscininPayi: number = 0;
+  DamgaVergisiMiktari: number = 0;
+  GelirVergisininMatrahi: number = 0;
+  gelirDizisi: any[] = [];
   maasTuruSec() {
     if (this.netBrut == 'Brut') {
       this.brut = this.personel.personelSigorta?.brutUcret;
-      this.deneme = [
+      this.maasData = [
         {
           ay: 'ocak',
           maas: this.brut ? this.brut : 0,
@@ -149,64 +157,107 @@ export class PersonelMaasComponent implements OnInit {
         {
           ay: 'aralık',
           maas: this.brut ? this.brut : 0,
+        },
+        {
+          ay: 'Toplam',
+          maas: this.toplamBrut,
         },
       ];
     } else if (this.netBrut == 'Net') {
-      let net = this.personel.personelSigorta?.netUcret;
-      this.deneme = [
+      this.net = this.personel.personelSigorta?.netUcret;
+      this.maasData = [
         {
           ay: 'ocak',
-          maas: net ? net : 0,
+          maas: this.net ? this.net : 0,
         },
         {
           ay: 'subat',
-          maas: net ? net : 0,
+          maas: this.net ? this.net : 0,
         },
         {
           ay: 'mart',
-          maas: net ? net : 0,
+          maas: this.net ? this.net : 0,
         },
         {
           ay: 'nisan',
-          maas: net ? net : 0,
+          maas: this.net ? this.net : 0,
         },
         {
           ay: 'mayıs',
-          maas: net ? net : 0,
+          maas: this.net ? this.net : 0,
         },
         {
           ay: 'haziran',
-          maas: net ? net : 0,
+          maas: this.net ? this.net : 0,
         },
         {
           ay: 'temmuz',
-          maas: net ? net : 0,
+          maas: this.net ? this.net : 0,
         },
         {
           ay: 'agustos',
-          maas: net ? net : 0,
+          maas: this.net ? this.net : 0,
         },
         {
           ay: 'eylül',
-          maas: net ? net : 0,
+          maas: this.net ? this.net : 0,
         },
         {
           ay: 'ekim',
-          maas: net ? net : 0,
+          maas: this.net ? this.net : 0,
         },
         {
           ay: 'kasım',
-          maas: net ? net : 0,
+          maas: this.net ? this.net : 0,
         },
         {
           ay: 'aralık',
-          maas: net ? net : 0,
+          maas: this.net ? this.net : 0,
         },
       ];
     }
   }
-
   maasHesapla() {
-    console.log(this.brut, this.personel.personelSigorta?.netUcret);
+    let gelirVergisi: number = 0;
+    this.SSKprimi = this.brut * 0.14;
+    this.sigortasiIscininPayi = this.brut * 0.01;
+    this.DamgaVergisiMiktari = this.brut * 0.00759;
+    this.GelirVergisininMatrahi =
+      this.brut - (this.SSKprimi + this.sigortasiIscininPayi);
+
+    if (this.netBrut == 'Brut') {
+      let sabirBrut = this.brut;
+      for (let index = 0; index < 12; index++) {
+        if (this.brut <= 70000) {
+          gelirVergisi += sabirBrut * 0.15;
+          this.gelirDizisi.push(sabirBrut * 0.15);
+        } else if (this.brut > 70000 && this.brut <= 150000) {
+          gelirVergisi += sabirBrut * 0.2;
+          this.gelirDizisi.push(sabirBrut * 0.2);
+        } else if (this.brut > 150000 && this.brut <= 370000) {
+          gelirVergisi += sabirBrut * 0.27;
+          this.gelirDizisi.push(sabirBrut * 0.27);
+        } else if (this.brut > 370000 && this.brut <= 1900000) {
+          gelirVergisi += sabirBrut * 0.35;
+          this.gelirDizisi.push(sabirBrut * 0.35);
+        } else if (this.brut > 1900000) {
+          gelirVergisi += sabirBrut * 0.4;
+          this.gelirDizisi.push(sabirBrut * 0.4);
+        }
+        //this.brut += sabirBrut;
+        this.toplamBrut = this.brut;
+        this.toplamBrut += sabirBrut;
+      }
+      let KesintilerinToplami: number =
+        this.SSKprimi +
+        this.sigortasiIscininPayi +
+        this.GelirVergisininMatrahi +
+        this.DamgaVergisiMiktari +
+        gelirVergisi;
+      let netUcret = this.brut - KesintilerinToplami;
+      this.net = netUcret / 12;
+    } else if (this.netBrut == 'Net') {
+      console.log('net bölümü');
+    }
   }
 }
