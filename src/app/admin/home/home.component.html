@@ -1,6 +1,6 @@
 <p-card>
   <div class="grid">
-    <div class="col-3 p-fluid">
+    <div class="col-6 lg:col-3 p-fluid">
       <div class="info-container">
         <div class="l-mini-container">
           <h5>Personel Sayısı</h5>
@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-    <div class="col-3 p-fluid">
+    <div class="col-6 lg:col-3 p-fluid">
       <div class="info-container">
         <div class="l-mini-container">
           <h5>Departman Sayısı</h5>
@@ -26,7 +26,7 @@
         </div>
       </div>
     </div>
-    <div class="col-3 p-fluid">
+    <div class="col-6 lg:col-3 p-fluid">
       <div class="info-container">
         <div class="l-mini-container">
           <h5>Şube Sayısı</h5>
@@ -39,11 +39,37 @@
         </div>
       </div>
     </div>
-    <div class="col-3 p-fluid">
+    <div class="col-6 lg:col-3 p-fluid">
       <div class="info-container">
         <div class="l-mini-container">
           <h5>Departman Rol Sayısı</h5>
           <p>{{ departmanRolTablo.length }}</p>
+        </div>
+        <div class="r-mini-container" style="flex: 0.5">
+          <i
+            class="pi pi-id-card text-blue-500 bg-blue-100 p-4 rounded-2 text-xl"
+          ></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 lg:col-3 p-fluid">
+      <div class="info-container">
+        <div class="l-mini-container">
+          <h5>Personel brüt maaş</h5>
+          <p>{{ brutMaas }}</p>
+        </div>
+        <div class="r-mini-container" style="flex: 0.5">
+          <i
+            class="pi pi-id-card text-blue-500 bg-blue-100 p-4 rounded-2 text-xl"
+          ></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 lg:col-3 p-fluid">
+      <div class="info-container">
+        <div class="l-mini-container">
+          <h5>Personel net maaş</h5>
+          <p>{{ netMaas }}</p>
         </div>
         <div class="r-mini-container" style="flex: 0.5">
           <i

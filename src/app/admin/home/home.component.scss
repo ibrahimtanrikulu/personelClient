@@ -1,9 +1,11 @@
 .info-container {
+  $degisken: white;
+
   border: 1px solid whitesmoke;
   height: 100%;
   width: 100%;
   border-radius: 20px;
-  background-color: white;
+  background-color: $degisken;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   display: flex;
   flex-wrap: wrap;
@@ -27,6 +29,5 @@
     flex-direction: column;
     flex-wrap: wrap;
     padding: 8%;
-    
   }
 }

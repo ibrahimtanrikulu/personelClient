@@ -18,17 +18,27 @@ export class HomeComponent implements OnInit {
   departmanTablo: Departman[] = [];
   departmanRolTablo: DepartmanRol[] = [];
   subeTablo: Sube[] = [];
+  brutMaas: any;
+  netMaas: any;
   constructor(
     private personelService: PersonelService,
     private departmanService: DepartmanService,
     private departmanRolService: DepartmanRolService,
     private subeService: SubeService
-  ) {this.getAll()}
+  ) {
+    this.getAll();
+  }
 
   ngOnInit(): void {}
 
   getAll() {
-    this.personelService.getList().subscribe((s) => (this.personelTablo = s));
+    this.personelService.getList().subscribe((s) => {
+      this.personelTablo = s;
+      s.map((m) => {
+        this.brutMaas += m.personelSigorta?.brutUcret;
+        this.netMaas += m.personelSigorta?.netUcret;
+      });
+    });
     this.departmanService.read().subscribe((s) => (this.departmanTablo = s));
     this.departmanRolService
       .read()
