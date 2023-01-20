@@ -1,6 +1,5 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { firstValueFrom, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Departman } from '../../Interface/Departman/departman';
 import { GenericService } from '../generic.service';
 
