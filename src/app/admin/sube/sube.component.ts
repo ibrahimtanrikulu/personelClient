@@ -5,11 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import {
-  ConfirmationService,
-  MessageService,
-  PrimeNGConfig,
-} from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Sube } from 'src/app/Interface/Sube/sube';
 import { SubeService } from 'src/app/Services/Sube/sube.service';
 
@@ -24,29 +20,26 @@ export class SubeComponent implements OnInit {
   cols: any[] = [];
   sube!: Sube;
   public SubeForm!: FormGroup;
-  DepartmanDialog: boolean = false;
-  SilDepartman: boolean = false;
+  subeDialog: boolean = false;
   saveVsUpdate: boolean = false;
 
   constructor(
     private subeService: SubeService,
     private formBuilder: FormBuilder,
-    private confirmationService: ConfirmationService,
-    private messageService: MessageService,
-    private primengConfig: PrimeNGConfig
+    private confirmationService: ConfirmationService
   ) {
-    this.DepartmanGetAll();
+    this.SubeGetAll();
     this.createForm();
-    this.cols = [
-      { field: 'ad', header: 'Şube adı' },
-      { field: 'creationDateTime', header: 'Şube oluşturulma tarihi' },
-      { field: 'button', type: 'edit' },
-    ];
   }
 
   ngOnInit(): void {}
 
   createForm() {
+    this.cols = [
+      { field: 'ad', header: 'Şube adı' },
+      { field: 'creationDateTime', header: 'Şube oluşturulma tarihi' },
+      { field: 'button', type: 'edit' },
+    ];
     this.SubeForm = this.formBuilder.group({
       id: new FormControl(0),
       ad: new FormControl('', [Validators.required]),
@@ -59,11 +52,13 @@ export class SubeComponent implements OnInit {
   addSubeButton() {
     this.SubeForm.reset();
     this.saveVsUpdate = false;
-    this.DepartmanDialog = true;
+    this.subeDialog = true;
   }
 
-  DepartmanGetAll() {
-    this.subeService.read().subscribe((s) => (this.SubeListe = s));
+  SubeGetAll() {
+    this.subeService.read().subscribe((s) => {
+      this.SubeListe = s;
+    });
   }
 
   DeleteSube(e: any) {
@@ -72,11 +67,9 @@ export class SubeComponent implements OnInit {
       header: 'Silinsinmi',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.subeService.remove(e.id);
-        setTimeout(() => {
-          this.DepartmanGetAll();
-          this.SilDepartman = false;
-        }, 300);
+        this.subeService.remove(e.id).subscribe((s) => {
+          this.SubeGetAll();
+        });
       },
     });
   }
@@ -87,12 +80,18 @@ export class SubeComponent implements OnInit {
         ad: this.SubeForm.value.ad,
         id: this.SubeForm.value.id,
       };
-      this.subeService.update(this.sube);
+      this.subeService.update(this.sube).subscribe((s) => {
+        this.SubeGetAll();
+        this.subeDialog = false;
+      });
     } else {
       this.sube = <Sube>{
         ad: this.SubeForm.value.ad,
       };
-      this.subeService.save(this.sube);
+      this.subeService.save(this.sube).subscribe((s) => {
+        this.SubeGetAll();
+        this.subeDialog = false;
+      });
     }
   }
 
@@ -100,6 +99,6 @@ export class SubeComponent implements OnInit {
     this.sube = e;
     this.SubeForm.setValue(this.sube);
     this.saveVsUpdate = true;
-    this.DepartmanDialog = true;
+    this.subeDialog = true;
   }
 }

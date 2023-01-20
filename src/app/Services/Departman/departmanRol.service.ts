@@ -19,47 +19,32 @@ export class DepartmanRolService {
   }
 
   save(item: DepartmanRol) {
-    this.errorMesage = [];
-    this.httpClientService
-      .post(
-        {
-          controller: 'departmanrol',
-          action: 'post',
-        },
-        item
-      )
-      .subscribe();
+    return this.httpClientService.post(
+      {
+        controller: 'departmanrol',
+        action: 'post',
+      },
+      item
+    );
   }
 
   remove(item: string) {
-    this.httpClientService
-      .delete(
-        {
-          controller: 'departmanrol',
-          action: 'delete',
-        },
-        item
-      )
-      .subscribe((s) => console.log(s));
+    return this.httpClientService.delete(
+      {
+        controller: 'departmanrol',
+        action: 'delete',
+      },
+      item
+    );
   }
 
   update(item: DepartmanRol) {
-    this.errorMesage = [];
-    this.httpClientService
-      .put(
-        {
-          controller: 'departmanrol',
-          action: 'put',
-        },
-        item
-      )
-      .subscribe(
-        (s) => console.log(s, 'değer'),
-        (errorResponse: HttpErrorResponse) => {
-          errorResponse.error.errors.isim.forEach((e: any) => {
-            this.errorMesage.push(e);
-          });
-        }
-      );
+    return this.httpClientService.put(
+      {
+        controller: 'departmanrol',
+        action: 'put',
+      },
+      item
+    );
   }
 }

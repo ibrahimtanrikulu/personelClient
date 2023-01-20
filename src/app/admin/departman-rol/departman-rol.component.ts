@@ -5,11 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import {
-  ConfirmationService,
-  MessageService,
-  PrimeNGConfig,
-} from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Departman } from 'src/app/Interface/Departman/departman';
 import { DepartmanRol } from 'src/app/Interface/Departman/departmanRol';
 import { Sube } from 'src/app/Interface/Sube/sube';
@@ -29,12 +25,10 @@ export class DepartmanRolComponent implements OnInit {
   filterDepartman: Departman[] = [];
   departmanRolListe: DepartmanRol[] = [];
   cols: any[] = [];
-  input: any[] = [];
   departmanRol?: DepartmanRol;
   public DepartmanForm!: FormGroup;
 
   DepartmanDialog: boolean = false;
-  SilDepartman: boolean = false;
   saveVsUpdate: boolean = false;
 
   constructor(
@@ -42,17 +36,8 @@ export class DepartmanRolComponent implements OnInit {
     private departmanService: DepartmanService,
     private departmanRolService: DepartmanRolService,
     private formBuilder: FormBuilder,
-    private confirmationService: ConfirmationService,
-    private messageService: MessageService,
-    private primengConfig: PrimeNGConfig
+    private confirmationService: ConfirmationService
   ) {
-    this.cols = [
-      { field: 'subeAdi', header: 'Şubesi' },
-      { field: 'departmanAdi', header: 'Departman' },
-      { field: 'isim', header: 'Departman Pozisyon ismi' },
-      { field: 'button', type: 'edit' },
-    ];
-
     this.DepartmanGetAll();
     this.CreateForm();
   }
@@ -60,6 +45,12 @@ export class DepartmanRolComponent implements OnInit {
   ngOnInit(): void {}
 
   CreateForm() {
+    this.cols = [
+      { field: 'subeAdi', header: 'Şubesi' },
+      { field: 'departmanAdi', header: 'Departman' },
+      { field: 'isim', header: 'Departman Pozisyon ismi' },
+      { field: 'button', type: 'edit' },
+    ];
     this.DepartmanForm = this.formBuilder.group({
       id: new FormControl(''),
       subeAdi: new FormControl(''),
@@ -89,30 +80,32 @@ export class DepartmanRolComponent implements OnInit {
   }
 
   DepartmanGetAll() {
-    this.subeService.read().subscribe((s) => (this.subeliste = s));
-    this.departmanService.read().subscribe((s) => (this.departmanListe = s));
-    this.departmanRolService
-      .read()
-      .subscribe((s) => (this.departmanRolListe = s));
-    setTimeout(() => {
-      this.departmanListe.map((m) => {
-        this.subeliste.map((ma) => {
-          if (m.subeId == ma.id) {
-            m.subeAdi = ma.ad;
-          }
-        });
-      });
-      setTimeout(() => {
-        this.departmanRolListe.map((m) => {
-          this.departmanListe.map((ma) => {
-            if (m.departmanId == ma.id) {
-              m.departmanAdi = ma.isim;
-              m.subeAdi = ma.subeAdi;
-            }
+    this.subeService.read().subscribe((s) => {
+      this.subeliste = s;
+      this.departmanService.read().subscribe((s) => {
+        this.departmanListe = s;
+        this.departmanRolService.read().subscribe((s) => {
+          this.departmanRolListe = s;
+
+          this.departmanListe.map((m) => {
+            this.subeliste.map((ma) => {
+              if (m.subeId == ma.id) {
+                m.subeAdi = ma.ad;
+              }
+            });
+          });
+
+          this.departmanRolListe.map((m) => {
+            this.departmanListe.map((ma) => {
+              if (m.departmanId == ma.id) {
+                m.departmanAdi = ma.isim;
+                m.subeAdi = ma.subeAdi;
+              }
+            });
           });
         });
-      }, 200);
-    }, 200);
+      });
+    });
   }
 
   DeleteDepartmanRol(e: any) {
@@ -121,11 +114,10 @@ export class DepartmanRolComponent implements OnInit {
       header: 'Silinsinmi',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.departmanRolService.remove(e.id);
-        setTimeout(() => {
+        this.departmanRolService.remove(e.id).subscribe((s) => {
           this.DepartmanGetAll();
-          this.SilDepartman = false;
-        }, 300);
+          this.DepartmanDialog = false;
+        });
       },
     });
   }
@@ -147,8 +139,10 @@ export class DepartmanRolComponent implements OnInit {
         updateDate: this.DepartmanForm.value.updateDate,
         isActive: false,
       };
-      console.log(this.departmanRol);
-      this.departmanRolService.update(this.departmanRol);
+      this.departmanRolService.update(this.departmanRol).subscribe((s) => {
+        this.DepartmanGetAll();
+        this.DepartmanDialog = false;
+      });
     } else {
       this.departmanRol = <DepartmanRol>{
         isim: this.DepartmanForm.value.isim,
@@ -157,7 +151,10 @@ export class DepartmanRolComponent implements OnInit {
         updateDate: this.DepartmanForm.value.updateDate,
         isActive: false,
       };
-      this.departmanRolService.save(this.departmanRol);
+      this.departmanRolService.save(this.departmanRol).subscribe((s) => {
+        this.DepartmanGetAll();
+        this.DepartmanDialog = false;
+      });
     }
   }
 }

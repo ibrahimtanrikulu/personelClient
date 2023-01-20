@@ -19,55 +19,32 @@ export class DepartmanService {
   }
 
   save(item: Departman) {
-    this.errorMesage = [];
-    this.httpClientService
-      .post(
-        {
-          controller: 'departman',
-          action: 'post',
-        },
-        item
-      )
-      .subscribe();
-    // .subscribe(
-    //   (s) => console.log(s, 'değer'),
-    //   (errorResponse: HttpErrorResponse) => {
-    //     errorResponse.error.errors.isim.forEach((e: any) => {
-    //       this.errorMesage.push(e);
-    //     });
-    //   }
-    // );
+    return this.httpClientService.post(
+      {
+        controller: 'departman',
+        action: 'post',
+      },
+      item
+    );
   }
 
   remove(item: string) {
-    this.httpClientService
-      .delete(
-        {
-          controller: 'departman',
-          action: 'delete',
-        },
-        item
-      )
-      .subscribe((s) => console.log(s));
+    return this.httpClientService.delete(
+      {
+        controller: 'departman',
+        action: 'delete',
+      },
+      item
+    );
   }
 
   update(item: Departman) {
-    this.errorMesage = [];
-    this.httpClientService
-      .put(
-        {
-          controller: 'departman',
-          action: 'put',
-        },
-        item
-      )
-      .subscribe(
-        (s) => console.log(s, 'değer'),
-        (errorResponse: HttpErrorResponse) => {
-          errorResponse.error.errors.isim.forEach((e: any) => {
-            this.errorMesage.push(e);
-          });
-        }
-      );
+    return this.httpClientService.put(
+      {
+        controller: 'departman',
+        action: 'put',
+      },
+      item
+    );
   }
 }

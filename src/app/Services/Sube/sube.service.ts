@@ -1,7 +1,5 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { firstValueFrom, Observable } from 'rxjs';
-import { Departman } from '../../Interface/Departman/departman';
+import { Observable } from 'rxjs';
 import { Sube } from '../../Interface/Sube/sube';
 import { GenericService } from '../generic.service';
 
@@ -20,40 +18,32 @@ export class SubeService {
   }
 
   save(item: Sube) {
-    this.errorMesage = [];
-    this.httpClientService
-      .post(
-        {
-          controller: 'sube',
-          action: 'post',
-        },
-        item
-      )
-      .subscribe();
+    return this.httpClientService.post(
+      {
+        controller: 'sube',
+        action: 'post',
+      },
+      item
+    );
   }
 
   remove(item: string) {
-    this.httpClientService
-      .delete(
-        {
-          controller: 'sube',
-          action: 'delete',
-        },
-        item
-      )
-      .subscribe();
+    return this.httpClientService.delete(
+      {
+        controller: 'sube',
+        action: 'delete',
+      },
+      item
+    );
   }
 
   update(item: Sube) {
-    this.errorMesage = [];
-    this.httpClientService
-      .put(
-        {
-          controller: 'sube',
-          action: 'put',
-        },
-        item
-      )
-      .subscribe();
+    return this.httpClientService.put(
+      {
+        controller: 'sube',
+        action: 'put',
+      },
+      item
+    );
   }
 }

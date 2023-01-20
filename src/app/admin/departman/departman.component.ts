@@ -5,11 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import {
-  ConfirmationService,
-  MessageService,
-  PrimeNGConfig,
-} from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Departman } from 'src/app/Interface/Departman/departman';
 import { Sube } from 'src/app/Interface/Sube/sube';
 import { DepartmanService } from 'src/app/Services/Departman/departman.service';
@@ -25,22 +21,25 @@ export class DepartmanComponent implements OnInit {
   subeliste: Sube[] = [];
   departmanListe: Departman[] = [];
   cols: any[] = [];
-  input: any[] = [];
   departman?: Departman;
   public DepartmanForm!: FormGroup;
 
   DepartmanDialog: boolean = false;
-  SilDepartman: boolean = false;
   saveVsUpdate: boolean = false;
 
   constructor(
     private departmanService: DepartmanService,
     private subeService: SubeService,
     private formBuilder: FormBuilder,
-    private confirmationService: ConfirmationService,
-    private messageService: MessageService,
-    private primengConfig: PrimeNGConfig
-  ) {
+    private confirmationService: ConfirmationService
+  ) {}
+
+  ngOnInit(): void {
+    this.DepartmanGetAll();
+    this.createMethod();
+  }
+
+  createMethod() {
     this.cols = [
       { field: 'subeAdi', header: 'Şubesi' },
       { field: 'isim', header: 'Departman ismi' },
@@ -57,10 +56,7 @@ export class DepartmanComponent implements OnInit {
       updateDate: new FormControl(Date),
       isActive: new FormControl(false),
     });
-    this.DepartmanGetAll();
   }
-
-  ngOnInit(): void {}
 
   addPersonelButton() {
     this.DepartmanForm.reset();
@@ -69,33 +65,30 @@ export class DepartmanComponent implements OnInit {
   }
 
   DepartmanGetAll() {
-    this.subeService.read().subscribe((s) => (this.subeliste = s));
-    this.departmanService.read().subscribe((s) => (this.departmanListe = s));
-    setTimeout(() => {
-      this.departmanListe.map((m) => {
-        this.subeliste.map((ma) => {
-          if (m.subeId == ma.id) {
-            m.subeAdi = ma.ad;
-          }
+    this.subeService.read().subscribe((s) => {
+      this.subeliste = s;
+      this.departmanService.read().subscribe((s) => {
+        this.departmanListe = s;
+        this.departmanListe.map((m) => {
+          this.subeliste.map((ma) => {
+            if (m.subeId == ma.id) {
+              m.subeAdi = ma.ad;
+            }
+          });
         });
       });
-    }, 200);
+    });
   }
 
-  DeleteDepartman(e: any) {
-    this.DeletePersonel(e);
-  }
   DeletePersonel(e: any) {
     this.confirmationService.confirm({
       message: 'Bu Departman silmek istiyormusunuz',
       header: 'Silinsinmi',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.departmanService.remove(e.id);
-        setTimeout(() => {
+        this.departmanService.remove(e.id).subscribe((s) => {
           this.DepartmanGetAll();
-          this.SilDepartman = false;
-        }, 300);
+        });
       },
     });
   }
@@ -109,8 +102,10 @@ export class DepartmanComponent implements OnInit {
         updateDate: this.DepartmanForm.value.updateDate,
         id: this.DepartmanForm.value.id,
       };
-      console.log(this.departman);
-      this.departmanService.update(this.departman);
+      this.departmanService.update(this.departman).subscribe((s) => {
+        this.DepartmanGetAll();
+        this.DepartmanDialog = false;
+      });
     } else {
       this.departman = <Departman>{
         isim: this.DepartmanForm.value.isim,
@@ -119,19 +114,11 @@ export class DepartmanComponent implements OnInit {
         updateDate: this.DepartmanForm.value.updateDate,
         isActive: false,
       };
-      this.departmanService.save(this.departman);
+      this.departmanService.save(this.departman).subscribe((s) => {
+        this.DepartmanGetAll();
+        this.DepartmanDialog = false;
+      });
     }
-
-    // setTimeout(() => {
-    //   this.departmanService.errorMesage.forEach((element) => {
-    //     this.messageService.add({
-    //       severity: 'error',
-    //       summary: 'Error',
-    //       detail: element,
-    //     });
-    //   });
-    //   this.DepartmanGetAll();
-    // }, 300);
   }
 
   editButton(e: Departman) {

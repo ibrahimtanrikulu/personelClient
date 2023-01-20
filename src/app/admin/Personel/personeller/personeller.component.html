@@ -12,12 +12,7 @@
     </ng-template>
   </p-toolbar>
 
-  <p-table
-    #dt1
-    [value]="TabloData"
-    selectionMode="single"
-    dataKey="id"
-  >
+  <p-table #dt1 [value]="TabloData" selectionMode="single" dataKey="id">
     <ng-template pTemplate="caption">
       <div class="p-d-flex p-ai-center p-jc-between">
         <h4 class="p-m-0">Personel Listesi</h4>
@@ -68,7 +63,7 @@
           <h4>Kimlik Bilgileri</h4>
           <hr />
           <div class="grid">
-            <div class="col-12 md:col-4" style="border: 1px solid blue"></div>
+            <div class="col-12 md:col-4" style="border: 1px solid grey"></div>
             <div class="col-12 md:col-8">
               <div class="grid">
                 <!-- 1 -->
@@ -148,6 +143,7 @@
                       inputId="basic"
                       appendTo="body"
                       formControlName="KimlikDogumTarihi"
+                      [maxDate]="maxTarih"
                     ></p-calendar>
                   </span>
                 </div>

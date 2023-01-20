@@ -16,14 +16,14 @@ export class UserService {
       .post(
         {
           controller: 'User',
-          action:"post"
+          action: 'post',
         },
         item
       )
       .subscribe();
   }
 
-  Login(item: Login) : Observable<Login> {
+  Login(item: Login): Observable<Login> {
     return this.httpClientService.post(
       {
         controller: 'User',
@@ -32,5 +32,4 @@ export class UserService {
       item
     );
   }
-
 }

@@ -20,14 +20,12 @@ export class PersonelMesaiService {
   }
 
   updateListPersonel(item: PersonelMaasHesaplaModel[]) {
-    this.httpClientService
-      .put(
-        {
-          controller: 'personelmaas',
-          action: 'putlist',
-        },
-        item
-      )
-      .subscribe();
+    return this.httpClientService.put(
+      {
+        controller: 'personelmaas',
+        action: 'putlist',
+      },
+      item
+    );
   }
 }

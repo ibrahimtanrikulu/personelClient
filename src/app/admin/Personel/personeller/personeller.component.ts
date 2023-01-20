@@ -23,7 +23,6 @@ import { PersonelBanka } from 'src/app/Interface/Personel/personelBanka';
 import { PersonelSirket } from 'src/app/Interface/Personel/personelSirket';
 import { PersonelService } from 'src/app/Services/Personel/personel.service';
 import { DepartmanRolService } from 'src/app/Services/Departman/departmanRol.service';
-import { GenericService } from 'src/app/Services/generic.service';
 
 @Component({
   selector: 'app-personeller',
@@ -67,7 +66,6 @@ export class PersonellerComponent implements OnInit {
   deneyim!: PersonelDeneyim;
   public DeneyimForm!: FormGroup;
   DeneyimDialog: boolean = false;
-  SilDeneyim: boolean = false;
   saveVsUpdateDeneyim: boolean = false;
 
   constructor(
@@ -76,8 +74,6 @@ export class PersonellerComponent implements OnInit {
     private departmanRolService: DepartmanRolService,
     private subeService: SubeService,
     private formBuilder: FormBuilder,
-    private messageService: MessageService,
-    private httpClientService: GenericService,
     private confirmationService: ConfirmationService
   ) {
     this.Temeldata();
@@ -108,6 +104,7 @@ export class PersonellerComponent implements OnInit {
     this.calisanTipi = ['Normal', 'Emekli'];
     this.bankaAdi = ['Yapı kredi', 'Akbank', 'Vakıf bank'];
   }
+
   getAll() {
     this.personelService.getList().subscribe((s) => (this.TabloData = s));
     this.departmanService.read().subscribe((s) => (this.departmanListe = s));
@@ -115,11 +112,8 @@ export class PersonellerComponent implements OnInit {
       .read()
       .subscribe((s) => (this.departmanRolListe = s));
     this.subeService.read().subscribe((s) => (this.subeListe = s));
-
-    setTimeout(() => {
-      console.log(this.TabloData, 'bütün veri');
-    }, 500);
   }
+
   createForm() {
     this.DeneyimCols = [
       { field: 'sirketIsmi', header: 'Şirket Adı' },
@@ -416,6 +410,7 @@ export class PersonellerComponent implements OnInit {
       ),
     });
   }
+
   //sube-departman-departmanRol method
   filterDepartmanChange(e: any) {
     this.filterDepartmanListe = [];
@@ -515,7 +510,9 @@ export class PersonellerComponent implements OnInit {
         },
         personelDeneyim: this.DeneyimListe,
       };
-      this.personelService.savePersonel(this.personel);
+      this.personelService.savePersonel(this.personel).subscribe((s) => {
+        this.DeneyimDialog = false;
+      });
     } else {
       let id = this.personel.id;
       this.personel = <Personel>{
@@ -590,8 +587,11 @@ export class PersonellerComponent implements OnInit {
         },
         personelDeneyim: this.DeneyimListe,
         id: id,
-      };      
-      this.personelService.updatePersonel(this.personel);
+      };
+      this.personelService.updatePersonel(this.personel).subscribe((s) => {
+        this.getAll();
+        this.DeneyimDialog = false;
+      });
     }
   }
 

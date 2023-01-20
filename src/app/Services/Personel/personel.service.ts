@@ -24,41 +24,33 @@ export class PersonelService {
   }
 
   updatePersonel(item: Personel) {
-    this.httpClientService
-      .put(
-        {
-          controller: 'personel',
-          action: 'put',
-        },
-        item
-      )
-      .subscribe();
+    return this.httpClientService.put(
+      {
+        controller: 'personel',
+        action: 'put',
+      },
+      item
+    );
   }
 
   savePersonel(item: any) {
-    this.httpClientService
-      .post(
-        {
-          controller: 'personel',
-          action: 'post',
-        },
-        item
-      )
-      .subscribe((s) => console.log(s));
+    return this.httpClientService.post(
+      {
+        controller: 'personel',
+        action: 'post',
+      },
+      item
+    );
   }
 
   savePersonelImage(item: any) {
-    console.log(item);
-
-    this.httpClientService
-      .post(
-        {
-          controller: 'personel',
-          action: 'PostImage',
-        },
-        item
-      )
-      .subscribe((s) => console.log(s));
+    return this.httpClientService.post(
+      {
+        controller: 'personel',
+        action: 'PostImage',
+      },
+      item
+    );
   }
 
   // async remove(item: string) {

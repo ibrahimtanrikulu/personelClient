@@ -18,51 +18,42 @@ export class PersonelizinService {
   }
 
   remove(e: PersonelIzin) {
-    this.httpClientService
-      .delete(
-        {
-          controller: 'personelizin',
-          action: 'delete',
-        },
-        e.id
-      )
-      .subscribe();
+    return this.httpClientService.delete(
+      {
+        controller: 'personelizin',
+        action: 'delete',
+      },
+      e.id
+    );
   }
 
   save(item: PersonelIzin) {
-    this.httpClientService
-      .post(
-        {
-          controller: 'personelizin',
-          action: 'post',
-        },
-        item
-      )
-      .subscribe((s) => console.log(s));
+    return this.httpClientService.post(
+      {
+        controller: 'personelizin',
+        action: 'post',
+      },
+      item
+    );
   }
 
   update(item: PersonelIzin) {
-    this.httpClientService
-      .put(
-        {
-          controller: 'personelizin',
-          action: 'put',
-          
-        },
-        item
-      )
-      .subscribe((s) => console.log(s));
+    return this.httpClientService.put(
+      {
+        controller: 'personelizin',
+        action: 'put',
+      },
+      item
+    );
   }
 
   saveList(item: PersonelIzin[]) {
-    this.httpClientService
-      .post(
-        {
-          controller: 'personelizin',
-          action: 'postlist',
-        },
-        item
-      )
-      .subscribe();
+    return this.httpClientService.post(
+      {
+        controller: 'personelizin',
+        action: 'postlist',
+      },
+      item
+    );
   }
 }
