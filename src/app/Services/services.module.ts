@@ -26,4 +26,4 @@ import { DepartmanRolService } from './Departman/departmanRol.service';
   ],
   declarations: [],
 })
-export class ModelModule {}
+export class ServicesModule {}

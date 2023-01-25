@@ -4,10 +4,8 @@ import {
   CanActivate,
   Router,
   RouterStateSnapshot,
-  UrlTree,
 } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +23,7 @@ export class AuthGuard implements CanActivate {
     }
     if (!token || isTokenExpired) {
       _isAuth = false;
-      this.router.navigate(['login'], {
+      this.router.navigate(['/ui'], {
         queryParams: { returnUrl: state.url },
       });
     }

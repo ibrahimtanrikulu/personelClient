@@ -1,42 +1,57 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DepartmanRolComponent } from './admin/departman-rol/departman-rol.component';
-import { DepartmanComponent } from './admin/departman/departman.component';
-import { HomeComponent } from './admin/home/home.component';
-import { AppLayoutComponent } from './admin/layout/app.layout.component';
-import { PersonelIstifaComponent } from './admin/Personel/personel-istifa/personel-istifa.component';
-import { PersonelMaasComponent } from './admin/Personel/personel-maas/personel-maas.component';
-import { PersonelMesaiComponent } from './admin/Personel/personel-mesai/personel-mesai.component';
-import { PersonelizinleriComponent } from './admin/Personel/personelizinleri/personelizinleri.component';
-import { PersonellerComponent } from './admin/Personel/personeller/personeller.component';
-import { SubeComponent } from './admin/sube/sube.component';
 import { AuthGuard } from './auth/auth.guard';
-import { LoginComponent } from './ui/login/login.component';
-import { RegisterComponent } from './ui/register/register.component';
+import { AppLayoutComponent } from './admin/layout/app.layout.component';
 
 const routes: Routes = [
-  { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent },
+  { path: '', pathMatch: 'full', redirectTo: 'ui' },
   {
     path: 'layout',
     component: AppLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: 'home', component: HomeComponent },
       {
-        path: 'personeller',
-        component: PersonellerComponent,
+        path: 'home',
+        loadChildren: () =>
+          import('./admin/home/home.module').then((p) => p.HomeModule),
+        canActivate: [AuthGuard],
       },
-      { path: 'personelMesaileri', component: PersonelMesaiComponent },
-      { path: 'personelMaaslari', component: PersonelMaasComponent },
-      { path: 'personelizinleri', component: PersonelizinleriComponent },
-      { path: 'personelIstifa', component: PersonelIstifaComponent },
-      { path: 'departmanlar', component: DepartmanComponent },
-      { path: 'departmanRol', component: DepartmanRolComponent },
-      { path: 'subeler', component: SubeComponent },
+      {
+        path: 'departman',
+        loadChildren: () =>
+          import('./admin/departman/departman.module').then(
+            (p) => p.DepartmanModule
+          ),
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'departmanrol',
+        loadChildren: () =>
+          import('./admin/departman-rol/departman-rol.module').then(
+            (p) => p.DepartmanRolModule
+          ),
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'sube',
+        loadChildren: () =>
+          import('./admin/sube/sube.module').then((p) => p.SubeModule),
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'personel',
+        loadChildren: () =>
+          import('./admin/Personel/personel.module').then(
+            (p) => p.PersonelModule
+          ),
+        canActivate: [AuthGuard],
+      },
     ],
   },
-  { path: '**', component: LoginComponent },
+  {
+    path: 'ui',
+    loadChildren: () => import('./ui/ui.module').then((p) => p.UiModule),
+  },
 ];
 
 @NgModule({

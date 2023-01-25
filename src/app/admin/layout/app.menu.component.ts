@@ -30,27 +30,27 @@ export class AppMenuComponent implements OnInit {
           {
             label: 'personeller',
             icon: 'pi pi-fw pi-check-square',
-            routerLink: ['/layout/personeller'],
+            routerLink: ['/layout/personel'],
           },
           {
             label: 'personel Maaşlari',
             icon: 'pi pi-fw pi-check-square',
-            routerLink: ['/layout/personelMaaslari'],
+            routerLink: ['/layout/personel/personel-maas'],
           },
           {
             label: 'personel izinleri',
             icon: 'pi pi-fw pi-check-square',
-            routerLink: ['/layout/personelizinleri'],
+            routerLink: ['/layout/personel/personel-izinleri'],
           },
           {
             label: 'isten çıkmış personeller',
             icon: 'pi pi-fw pi-check-square',
-            routerLink: ['/layout/personelIstifa'],
+            routerLink: ['/layout/personel/personel-istifa'],
           },
           {
             label: 'personel mesai işlemleri',
             icon: 'pi pi-fw pi-check-square',
-            routerLink: ['/layout/personelMesaileri'],
+            routerLink: ['/layout/personel/personel-mesai'],
           },
         ],
       },
@@ -61,13 +61,13 @@ export class AppMenuComponent implements OnInit {
           {
             label: 'Departmanlar',
             icon: 'pi pi-fw pi-eye',
-            routerLink: ['/layout/departmanlar'],
+            routerLink: ['/layout/departman'],
             badge: 'NEW',
           },
           {
             label: 'Departman Pozisyon',
             icon: 'pi pi-fw pi-eye',
-            routerLink: ['/layout/departmanRol'],
+            routerLink: ['/layout/departmanrol'],
             badge: 'NEW',
           },
         ],
@@ -79,11 +79,12 @@ export class AppMenuComponent implements OnInit {
           {
             label: 'Şube',
             icon: 'pi pi-fw pi-eye',
-            routerLink: ['/layout/subeler'],
+            routerLink: ['/layout/sube'],
             badge: 'NEW',
           },
         ],
-      },
+      }
+      
     ];
   }
 }

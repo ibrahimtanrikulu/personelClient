@@ -1,4 +1,4 @@
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -7,56 +7,37 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppLayoutModule } from './admin/layout/app.layout.module';
-import { LoginComponent } from './ui/login/login.component';
-import { DepartmanComponent } from './admin/departman/departman.component';
-import { ModelModule } from './Services/model.module';
-import { RegisterComponent } from './ui/register/register.component';
-import { NgxSpinnerModule } from 'ngx-spinner';
-import { PersonelMaasComponent } from './admin/Personel/personel-maas/personel-maas.component';
+import { ServicesModule } from './Services/services.module';
 import { JwtModule } from '@auth0/angular-jwt';
-import { PersonellerComponent } from './admin/Personel/personeller/personeller.component';
-import { MatTabsModule } from '@angular/material/tabs';
-import { DepartmanRolComponent } from './admin/departman-rol/departman-rol.component';
-import { SubeComponent } from './admin/sube/sube.component';
-import { PersonelizinleriComponent } from './admin/Personel/personelizinleri/personelizinleri.component';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { PersonelIstifaComponent } from './admin/Personel/personel-istifa/personel-istifa.component';
-import { TazminatHesaplaComponent } from './admin/Personel/tazminat-hesapla/tazminat-hesapla.component';
-import { PersonelMesaiComponent } from './admin/Personel/personel-mesai/personel-mesai.component';
-import { HomeComponent } from './admin/home/home.component';
-import { PrimengModule } from './base/primeng.module';
+import { PrimengModule } from './base/module/primeng.module';
+import { UiModule } from './ui/ui.module';
+import { PersonelModule } from './admin/Personel/personel.module';
+import { SubeModule } from './admin/sube/sube.module';
+import { DepartmanModule } from './admin/departman/departman.module';
+import { DepartmanRolModule } from './admin/departman-rol/departman-rol.module';
+import { HomeModule } from './admin/home/home.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    PersonellerComponent,
-    LoginComponent,
-    RegisterComponent,
-    DepartmanComponent,
-    PersonelMaasComponent,
-    DepartmanRolComponent,
-    SubeComponent,
-    PersonelizinleriComponent,
-    PersonelIstifaComponent,
-    TazminatHesaplaComponent,
-    PersonelMesaiComponent,
-    HomeComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
+    CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     AppRoutingModule,
-    ModelModule,
-    PrimengModule,
-    ReactiveFormsModule,
-    MatTabsModule,
-    MatDatepickerModule,
-    NgxSpinnerModule,
-    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
     AppLayoutModule,
-    ReactiveFormsModule,
     HttpClientModule,
+    ReactiveFormsModule,
+    
+    //module
+    PrimengModule,
+    UiModule,
+    PersonelModule,
+    SubeModule,
+    DepartmanModule,
+    DepartmanRolModule,
+    HomeModule,
+    ServicesModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => localStorage.getItem('AccessToken'),
