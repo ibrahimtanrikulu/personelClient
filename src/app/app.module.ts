@@ -6,16 +6,16 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppLayoutModule } from './admin/layout/app.layout.module';
-import { ServicesModule } from './Services/services.module';
+import { AppLayoutModule } from './Features/admin/layout/app.layout.module';
+import { PrimengModule } from './Shared/base/module/primeng.module';
+import { UiModule } from './Features/ui/ui.module';
+import { PersonelModule } from './Features/admin/Personel/personel.module';
+import { SubeModule } from './Features/admin/sube/sube.module';
+import { DepartmanModule } from './Features/admin/departman/departman.module';
+import { DepartmanRolModule } from './Features/admin/departman-rol/departman-rol.module';
+import { HomeModule } from './Features/admin/home/home.module';
+import { ServicesModule } from './Core/Services/services.module';
 import { JwtModule } from '@auth0/angular-jwt';
-import { PrimengModule } from './base/module/primeng.module';
-import { UiModule } from './ui/ui.module';
-import { PersonelModule } from './admin/Personel/personel.module';
-import { SubeModule } from './admin/sube/sube.module';
-import { DepartmanModule } from './admin/departman/departman.module';
-import { DepartmanRolModule } from './admin/departman-rol/departman-rol.module';
-import { HomeModule } from './admin/home/home.module';
 
 @NgModule({
   declarations: [AppComponent],

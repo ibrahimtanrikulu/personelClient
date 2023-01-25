@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './auth/auth.guard';
-import { AppLayoutComponent } from './admin/layout/app.layout.component';
+import { AuthGuard } from './Core/Guards/auth.guard';
+import { AppLayoutComponent } from './Features/admin/layout/app.layout.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'ui' },
@@ -13,13 +13,13 @@ const routes: Routes = [
       {
         path: 'home',
         loadChildren: () =>
-          import('./admin/home/home.module').then((p) => p.HomeModule),
+          import('./Features/admin/home/home.module').then((p) => p.HomeModule),
         canActivate: [AuthGuard],
       },
       {
         path: 'departman',
         loadChildren: () =>
-          import('./admin/departman/departman.module').then(
+          import('./Features/admin/departman/departman.module').then(
             (p) => p.DepartmanModule
           ),
         canActivate: [AuthGuard],
@@ -27,7 +27,7 @@ const routes: Routes = [
       {
         path: 'departmanrol',
         loadChildren: () =>
-          import('./admin/departman-rol/departman-rol.module').then(
+          import('./Features/admin/departman-rol/departman-rol.module').then(
             (p) => p.DepartmanRolModule
           ),
         canActivate: [AuthGuard],
@@ -35,13 +35,13 @@ const routes: Routes = [
       {
         path: 'sube',
         loadChildren: () =>
-          import('./admin/sube/sube.module').then((p) => p.SubeModule),
+          import('./Features/admin/sube/sube.module').then((p) => p.SubeModule),
         canActivate: [AuthGuard],
       },
       {
         path: 'personel',
         loadChildren: () =>
-          import('./admin/Personel/personel.module').then(
+          import('./Features/admin/Personel/personel.module').then(
             (p) => p.PersonelModule
           ),
         canActivate: [AuthGuard],
@@ -50,7 +50,7 @@ const routes: Routes = [
   },
   {
     path: 'ui',
-    loadChildren: () => import('./ui/ui.module').then((p) => p.UiModule),
+    loadChildren: () => import('./Features/ui/ui.module').then((p) => p.UiModule),
   },
 ];
 
