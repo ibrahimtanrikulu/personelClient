@@ -4,7 +4,7 @@ import { RegisterComponent } from './register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UiRoutingRoutingModule } from './ui-routing-routing.module';
-import { PrimengModule } from 'src/app/Shared/base/module/primeng.module';
+import { PrimengModule } from 'src/app/Shared/module/primeng.module';
 
 @NgModule({
   declarations: [LoginComponent, RegisterComponent],

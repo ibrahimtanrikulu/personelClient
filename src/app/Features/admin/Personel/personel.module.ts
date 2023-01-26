@@ -9,7 +9,8 @@ import { PersonelizinleriComponent } from './personelizinleri/personelizinleri.c
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PersonelRoutingModule } from './personel-routing.module';
-import { PrimengModule } from 'src/app/Shared/base/module/primeng.module';
+import { PrimengModule } from 'src/app/Shared/module/primeng.module';
+import { StandaloneComponent } from 'src/app/Shared/Components/standalone/standalone.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { PrimengModule } from 'src/app/Shared/base/module/primeng.module';
     ReactiveFormsModule,
     PrimengModule,
     PersonelRoutingModule,
+    StandaloneComponent,
   ],
 })
 export class PersonelModule {}

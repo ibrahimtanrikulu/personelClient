@@ -7,7 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppLayoutModule } from './Features/admin/layout/app.layout.module';
-import { PrimengModule } from './Shared/base/module/primeng.module';
+import { PrimengModule } from './Shared/module/primeng.module';
 import { UiModule } from './Features/ui/ui.module';
 import { PersonelModule } from './Features/admin/Personel/personel.module';
 import { SubeModule } from './Features/admin/sube/sube.module';
