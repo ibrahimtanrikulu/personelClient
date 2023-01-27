@@ -100,5 +100,7 @@ export class SubeComponent implements OnInit {
     this.SubeForm.setValue(this.sube);
     this.saveVsUpdate = true;
     this.subeDialog = true;
+    console.log(this.subeDialog);
+    
   }
 }
